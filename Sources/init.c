@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/07/19 16:24:19 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/08/25 15:05:05 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	nb_coord(char *str)
 	i = 0;
 	while (*str)
 	{
-		if (*str != ' ' && (*(str + 1) == '\0' || *(str + 1) == ' '))
+		if (*str != ',' && (*(str + 1) == '\0' || *(str + 1) == ','))
 			i++;
 		str++;
 	}
@@ -53,7 +53,7 @@ char		***create_map(t_param *param, char *file_name)
 	while ((stop = get_next_line(fd, &line)) > 0)
 	{
 		MAP_WIDTH = (nb_coord(line) < MAP_WIDTH) ? nb_coord(line) : MAP_WIDTH;
-		tab[MAP_HEIGHT++] = ft_strsplit(line, ' ');
+		tab[MAP_HEIGHT++] = ft_strsplit(line, ',');
 	}
 	if (MAP_WIDTH < 1)
 		exit(EXIT_FAILURE);
@@ -75,7 +75,7 @@ void		init_cam(t_param *param)
 	CAM_POS = new_vector(17, 15);
 	CAM_DIR = new_vector(-1, 0);
 	SCREEN = new_vector(0, 0.66);
-	RAY_POS = new_vector(0, 0);
+	//RAY_POS = new_vector(0, 0);
 	RAY_DIR = new_vector(0, 0);
 }
 

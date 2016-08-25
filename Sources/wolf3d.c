@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 20:11:28 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/07/19 16:22:46 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/08/25 15:25:25 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,54 +43,41 @@ static void	draw_line(int x, int y1, int y2, int color, t_param *param)
 
 static void	raycast(t_param *param)
 {
-	int		x;
-	int		mapX;
-	int		mapY;
-	double	sideDistX;	
-	double	sideDistY;
-	double	deltaDistX;	
-	double	deltaDistY;
-	double	perpWallDist;
-	int		stepX;
-	int		stepY;
-	int		hit;
-	int		side;
+	int			x;
+	int			mapX;
+	int			mapY;
+	double		sideDistX;	
+	double		sideDistY;
+	double		deltaDistX;	
+	double		deltaDistY;
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			side;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
 
 	x = -1;
 	while (++x < WIN_WIDTH)
 	{
 		SCREEN_X = 2 * x / (double)WIN_WIDTH - 1;
-		RAY_POS->x = CAM_POS->x;
-		RAY_POS->y = CAM_POS->y;
 		RAY_DIR->x = CAM_DIR->x + SCREEN->x * SCREEN_X;
 		RAY_DIR->y = CAM_DIR->y + SCREEN->y * SCREEN_X;
-		mapX = (int)RAY_POS->x;
-		mapY = (int)RAY_POS->y;
 		deltaDistX = sqrt(1 + (RAY_DIR->y * RAY_DIR->y) /
 				(RAY_DIR->x * RAY_DIR->x));
 		deltaDistY = sqrt(1 + (RAY_DIR->x * RAY_DIR->x) /
 				(RAY_DIR->y * RAY_DIR->y));
+		mapX = (int)CAM_POS->x;
+		mapY = (int)CAM_POS->y;
+		stepX = (RAY_DIR->x < 0) ? -1 : 1;
+		stepY = (RAY_DIR->y < 0) ? -1 : 1;
+		sideDistX = (RAY_DIR->x < 0) ? (CAM_POS->x - mapX) * deltaDistX :
+									(mapX + 1.0 - CAM_POS->x) * deltaDistX;
+		sideDistY = (RAY_DIR->y < 0) ? (CAM_POS->y - mapY) * deltaDistY :
+									(mapY + 1.0 - CAM_POS->y) * deltaDistY;
 		hit = 0;
-		if (RAY_DIR->x < 0)
-		{
-			stepX = -1;
-			sideDistX = (RAY_POS->x - mapX) * deltaDistX;
-		}
-		else
-		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - RAY_POS->x) * deltaDistX;
-		}
-		if (RAY_DIR->y < 0)
-		{
-			stepY = -1;
-			sideDistY = (RAY_POS->y - mapY) * deltaDistY;
-		}
-		else
-		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - RAY_POS->y) * deltaDistY;
-		}
 		while (hit == 0)
 		{
 			if (sideDistX < sideDistY)
@@ -105,27 +92,31 @@ static void	raycast(t_param *param)
 				mapY += stepY;
 				side = 1;
 			}
-			if (MAP[mapX][mapY] > 0) hit = 1;
+			hit = (MAP[mapX][mapY][0] > '0') ? 1 : 0;
 		}
 		if (side == 0)
-			perpWallDist = (mapX - RAY_POS->x + (1 - stepX) / 2) / RAY_DIR->x;
+			perpWallDist = (mapX - CAM_POS->x + (1 - stepX) / 2) / RAY_DIR->x;
 		else
-			perpWallDist = (mapY - RAY_POS->y + (1 - stepY) / 2) / RAY_DIR->y;
-		int lineHeight = (int)(WIN_HEIGHT / perpWallDist);
-		int drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
-		if (drawStart < 0)
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;
-		if (drawEnd >= WIN_HEIGHT)
-			drawEnd = WIN_HEIGHT - 1;
-		draw_line(x, drawStart, drawEnd, 0x00FFFFFF, param);
+			perpWallDist = (mapY - CAM_POS->y + (1 - stepY) / 2) / RAY_DIR->y;
+		lineHeight = (int)(WIN_HEIGHT / perpWallDist);
+		drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
+		drawStart = (drawStart < 0) ? 0 : drawStart;
+		drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;	
+		drawEnd = (drawEnd >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : drawEnd;
+		draw_line(x, drawStart, drawEnd, 0x0000FF00 / (side + 1), param);
 	}
 }
 
 static int	create_img(t_param *param)
 {
+	int i;
+
+	i = -1;
+	while (++i < WIN_WIDTH)
+	{
+		draw_line(i, 0, WIN_HEIGHT - 1, 0, param);
+	}
 	raycast(param);
-	//draw_line(20, 20, 50, 0x00FFFFFF, param);
 	mlx_put_image_to_window(MLX, WIN, IMG, 0, 0);
 	return (0);
 }
@@ -148,8 +139,8 @@ int			main(void)
 {
 	t_param		*param;
 
-	param = init_param(512, 384);
-	MAP = create_map(param, "Maps/map1.w3d");
+	param = init_param(1200, 800);
+	MAP = create_map(param, "Maps/map2.w3d");
 	init_cam(param);
 	display_map(param);
 	mlx_loop_hook(MLX, create_img, param);
