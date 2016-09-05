@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/08/25 15:25:28 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/05 19:28:34 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@
 # define MAP param->map
 # define MAP_WIDTH param->mapWidth
 # define MAP_HEIGHT param->mapHeight
-# define CAM_HEIGHT param->camHeight
 # define CAM_POS param->camPos
 # define CAM_DIR param->camDir
+# define CAM_HEIGHT param->cam_height
 # define SCREEN param->screen
 # define SCREEN_X param->screenX
 # define RAY_POS param->rayPos
@@ -51,11 +51,15 @@
 # define MAPX param->mapX
 # define MAPY param->mapY
 # define WALLDIST param->prepWallDist
+# define LINE_H param->lineHeight
 # define STEPX param->stepX
 # define STEPY param->stepY
 # define SIDE param->side
 # define SPEED param->speed
-# define SKY param->sky
+# define WALL param->wall
+# define WALL_ADDR param->wall_addr
+# define TEXTX param->text_x
+# define TEXSIZEL param->tex_sizeline
 
 typedef struct	s_vector
 {
@@ -74,10 +78,12 @@ typedef struct	s_param
 	int			endian;
 	void		*img;
 	char		*img_addr;
+
 	char		***map;
 	int			mapWidth;
 	int			mapHeight;
-	double		camHeight;
+
+	double		cam_height;
 	t_vector	*camPos;
 	t_vector	*camDir;
 	t_vector	*screen;
@@ -88,13 +94,17 @@ typedef struct	s_param
 	t_vector	*sideDist;
 	t_vector	*deltaDist;
 	double		prepWallDist;
-	int		mapX;
-	int		mapY;
-	int		stepX;
-	int		stepY;
+	double		lineHeight;
+	int			mapX;
+	int			mapY;
+	int			stepX;
+	int			stepY;
 	char		side;
 	double		speed;
-	void		*sky;
+	int			text_x;
+	int			tex_sizeline;
+	void		*wall;
+	char		*wall_addr;
 }				t_param;
 
 typedef	struct	s_pix
@@ -112,7 +122,6 @@ void			init_cam(t_param *param);
 void			img_put_pixel(t_param *param, int x, int y, unsigned int color);
 
 t_vector		*new_vector(double x, double y);
-void			free_vector(t_vector *v);
 void			rot_vector(t_vector *v, double angle);
 void			add_vectors(t_vector *v1, t_vector *v2);
 void			sub_vectors(t_vector *v1, t_vector *v2);
@@ -129,7 +138,7 @@ void			draw_line(int x, int y1, int y2, t_param *param);
 void			error_usage(void);
 void			error_opt(char opt);
 
-unsigned int		hsv_to_rgb(unsigned int h, float s, float v);
+unsigned int		hsv_to_rgb(unsigned int h, double s, double v);
 void			draw_line_h(int y, unsigned int color, t_param *param);
 
 int				ft_key(int keycode, t_param *param);

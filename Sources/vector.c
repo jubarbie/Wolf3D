@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/19 13:16:45 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/08/25 15:18:16 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/05 16:44:47 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ void		sub_vectors(t_vector *v1, t_vector *v2)
 {
 	v1->x -= v2->x;
 	v1->y -= v2->y;
-}
-
-void		free_vector(t_vector *v)
-{
-	if (v != NULL)
-		free(v);
 }
 
 t_vector	*new_vector(double x, double y)

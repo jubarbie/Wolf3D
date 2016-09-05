@@ -6,14 +6,10 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/08/25 15:05:05 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/05 18:30:33 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <fcntl.h>
-#include "libft.h"
-#include "mlx.h"
 #include "wolf3d.h"
 
 static int	nb_coord(char *str)
@@ -72,19 +68,14 @@ void		free_param(t_param *param)
 
 void		init_cam(t_param *param)
 {
-	int width = 800;
-	int height = 452;
-
 	CAM_POS = new_vector(2, 25);
 	CAM_DIR = new_vector(-1, 0);
+	CAM_HEIGHT = 1 / 2;
 	SCREEN = new_vector(0, 0.66);
-	//RAY_POS = new_vector(0, 0);
 	RAY_DIR = new_vector(0, 0);
 	param->sideDist = new_vector(0, 0);
 	param->deltaDist = new_vector(0, 0);
 	SPEED = 0.2;
-	SKY = mlx_xpm_file_to_image(MLX, "Img/sky.xpm", &width, &height);
-	//mlx_put_image_to_window(MLX, WIN, SKY, 0, 0);
 }
 
 t_param		*init_param(int size_x, int size_y)
@@ -99,7 +90,11 @@ t_param		*init_param(int size_x, int size_y)
 	WIN_HEIGHT = size_y;
 	BPP = 24;
 	SIZELINE = WIN_WIDTH * (BPP / 8);
+	TEXTX = 160;
+	TEXSIZEL = TEXTX * (BPP / 8);
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
+	WALL = mlx_xpm_file_to_image(MLX, "Img/wall.xpm", &TEXTX, &TEXTX);
+	WALL_ADDR = mlx_get_data_addr(WALL, &BPP, &TEXSIZEL, &ENDIAN);
 	return (param);
 }
