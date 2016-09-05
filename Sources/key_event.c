@@ -20,18 +20,35 @@ int			ft_key(int keycode, t_param *param)
 		free_param(param);
 		exit(EXIT_SUCCESS);
 	}
-	else if (keycode == 123)
-		CAM_POS->y -= (CAM_POS->y > 1.2 &&
-				MAP[(int)CAM_POS->x][(int)(CAM_POS->y - 0.5)][0] == '0') ? 0.1 : 0;
-	else if (keycode == 124)
-		CAM_POS->y += (CAM_POS->y < MAP_WIDTH - 1) ? 0.1 : 0;
+	else if (keycode == 43)
+		move_side_left(param);
+	else if (keycode == 47)
+		move_side_right(param);
 	else if (keycode == 126)
-		CAM_POS->x -= (CAM_POS->x > 1.2) ? 0.1 : 0;
+		move_forward(param);
 	else if (keycode == 125)
-		CAM_POS->x += (CAM_POS->x < MAP_HEIGHT - 1) ? 0.1 : 0;
-	else if (keycode == 69)
+		move_backward(param);
+	else if (keycode == 30)
 		SCREEN->y += 0.01;
-	else if (keycode == 78)
+	else if (keycode == 33)
 		SCREEN->y -= 0.01;
+	else if (keycode == 123)
+	{
+		rot_vector(CAM_DIR, 0.1);
+		rot_vector(SCREEN, 0.1);
+	}
+	else if (keycode == 124)
+	{
+		rot_vector(CAM_DIR, -0.1);
+		rot_vector(SCREEN, -0.1);
+	}
+	else if (keycode == 27)
+		time_vector(CAM_DIR, 1/1.1);
+	else if (keycode == 24)
+		time_vector(CAM_DIR, 1.1);
+	else if (keycode == 41)
+		SPEED -= (SPEED > 0.2) ? 0.1 : 0;
+	else if (keycode == 39)
+		SPEED += (SPEED < 5) ? 0.1 : 0;
 	return (0);
 }

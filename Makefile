@@ -16,7 +16,10 @@ SRC=	Sources/wolf3d.c		\
 		Sources/init.c			\
 		Sources/vector.c		\
 		Sources/error.c			\
-		Sources/key_event.c		
+		Sources/key_event.c		\
+		Sources/moves.c			\
+		Sources/display.c		\
+		Sources/raycast.c		
 OBJ=$(SRC:.c=.o)
 NAME=wolf3d
 

@@ -22,8 +22,7 @@
 # include "mlx.h"
 # include "libft.h"
 
-# define MAP_UNIT 10
-# define WALL_HEIGHT 100
+# define PI 3.141592
 
 # define MLX param->mlx
 # define WIN param->win
@@ -44,6 +43,19 @@
 # define SCREEN_X param->screenX
 # define RAY_POS param->rayPos
 # define RAY_DIR param->rayDir
+
+# define DISTX param->sideDist->x
+# define DISTY param->sideDist->y
+# define DDISTX param->deltaDist->x
+# define DDISTY param->deltaDist->y
+# define MAPX param->mapX
+# define MAPY param->mapY
+# define WALLDIST param->prepWallDist
+# define STEPX param->stepX
+# define STEPY param->stepY
+# define SIDE param->side
+# define SPEED param->speed
+# define SKY param->sky
 
 typedef struct	s_vector
 {
@@ -72,6 +84,17 @@ typedef struct	s_param
 	double		screenX;
 	t_vector	*rayPos;
 	t_vector	*rayDir;
+
+	t_vector	*sideDist;
+	t_vector	*deltaDist;
+	double		prepWallDist;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	char		side;
+	double		speed;
+	void		*sky;
 }				t_param;
 
 typedef	struct	s_pix
@@ -90,10 +113,24 @@ void			img_put_pixel(t_param *param, int x, int y, unsigned int color);
 
 t_vector		*new_vector(double x, double y);
 void			free_vector(t_vector *v);
-t_vector		*add_vectors(t_vector *v1, t_vector *v2);
+void			rot_vector(t_vector *v, double angle);
+void			add_vectors(t_vector *v1, t_vector *v2);
+void			sub_vectors(t_vector *v1, t_vector *v2);
+void			time_vector(t_vector *v, double i);
+
+void			move_forward(t_param *param);
+void			move_backward(t_param *param);
+void			move_side_left(t_param *param);
+void			move_side_right(t_param *param);
+
+void			raycast(t_param *param);
+void			draw_line(int x, int y1, int y2, t_param *param);
 
 void			error_usage(void);
 void			error_opt(char opt);
+
+unsigned int		hsv_to_rgb(unsigned int h, float s, float v);
+void			draw_line_h(int y, unsigned int color, t_param *param);
 
 int				ft_key(int keycode, t_param *param);
 

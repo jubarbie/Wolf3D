@@ -14,18 +14,29 @@
 
 void		rot_vector(t_vector *v, double a)
 {
-	v->x = (v->x * cos(a)) + (v->x * sin(a));
-	v->y = (v->y * -sin(a)) + (v->y * cos(a));
+	double tmp;
+
+	tmp = v->x;
+	v->x = (v->x * cos(a)) + (v->y * -sin(a));
+	v->y = (tmp * sin(a)) + (v->y * cos(a));
 }
 
-t_vector	*time_vector(t_vector *v, int i)
+void		time_vector(t_vector *v, double i)
 {
-	return (new_vector(v->x * i, v->y * i));
+	v->x *= i;
+	v->y *= i;
 }
 
-t_vector	*add_vectors(t_vector *v1, t_vector *v2)
+void		add_vectors(t_vector *v1, t_vector *v2)
 {
-	return (new_vector(v1->x + v2->x, v1->y + v2->y));
+	v1->x += v2->x;
+	v1->y += v2->y;
+}
+
+void		sub_vectors(t_vector *v1, t_vector *v2)
+{
+	v1->x -= v2->x;
+	v1->y -= v2->y;
 }
 
 void		free_vector(t_vector *v)

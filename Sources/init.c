@@ -72,11 +72,19 @@ void		free_param(t_param *param)
 
 void		init_cam(t_param *param)
 {
-	CAM_POS = new_vector(17, 15);
+	int width = 800;
+	int height = 452;
+
+	CAM_POS = new_vector(2, 25);
 	CAM_DIR = new_vector(-1, 0);
 	SCREEN = new_vector(0, 0.66);
 	//RAY_POS = new_vector(0, 0);
 	RAY_DIR = new_vector(0, 0);
+	param->sideDist = new_vector(0, 0);
+	param->deltaDist = new_vector(0, 0);
+	SPEED = 0.2;
+	SKY = mlx_xpm_file_to_image(MLX, "Img/sky.xpm", &width, &height);
+	//mlx_put_image_to_window(MLX, WIN, SKY, 0, 0);
 }
 
 t_param		*init_param(int size_x, int size_y)
