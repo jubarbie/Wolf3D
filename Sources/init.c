@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 15:18:48 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 20:04:29 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_param		*init_param(int size_x, int size_y)
 	WIN_HEIGHT = size_y;
 	BPP = 24;
 	SIZELINE = WIN_WIDTH * (BPP / 8);
-	TEXTX = 160;
+	TEXTX = 158;
 	TEXSIZEL = TEXTX * (BPP / 8);
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);

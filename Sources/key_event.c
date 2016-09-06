@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 19:47:10 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 15:18:43 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 18:47:03 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,58 +16,37 @@ static void	move(int keycode, t_param *param)
 {
 	if (keycode == 43)
 		MOVES |= M_STRAFF_L;
-		//move_side_left(param);
 	else if (keycode == 47)
 		MOVES |= M_STRAFF_R;
-		//move_side_right(param);
 	else if (keycode == 126)
-		MOVES |= M_UP;
-		//move_forward(param);
+		MOVES |= M_FORWARD;
 	else if (keycode == 125)
-		MOVES |= M_DOWN;
-		//move_backward(param);
+		MOVES |= M_BACKWARD;
 	else if (keycode == 123)
-	{
-		rot_vector(CAM_DIR, 0.1);
-		rot_vector(SCREEN, 0.1);
-	}
+		MOVES |= M_LEFT;
 	else if (keycode == 124)
-	{
-		rot_vector(CAM_DIR, -0.1);
-		rot_vector(SCREEN, -0.1);
-	}
+		MOVES |= M_RIGHT;
 }
 
-int			ft_keyRelease(int keycode, t_param *param)
+int			ft_key_release(int keycode, t_param *param)
 {
 	if (keycode == 43)
 		MOVES ^= M_STRAFF_L;
-		//move_side_left(param);
 	else if (keycode == 47)
 		MOVES ^= M_STRAFF_R;
-		//move_side_right(param);
 	else if (keycode == 126)
-		MOVES ^= M_UP;
-		//move_forward(param);
+		MOVES ^= M_FORWARD;
 	else if (keycode == 125)
-		MOVES ^= M_DOWN;
-		//move_backward(param);
+		MOVES ^= M_BACKWARD;
 	else if (keycode == 123)
-	{
-		rot_vector(CAM_DIR, 0.1);
-		rot_vector(SCREEN, 0.1);
-	}
+		MOVES ^= M_LEFT;
 	else if (keycode == 124)
-	{
-		rot_vector(CAM_DIR, -0.1);
-		rot_vector(SCREEN, -0.1);
-	}
+		MOVES ^= M_RIGHT;
 	return (0);
 }
 
-int			ft_keyPress(int keycode, t_param *param)
+int			ft_key_press(int keycode, t_param *param)
 {
-	//printf("key: %d\n", keycode);
 	if (keycode == 53)
 	{
 		free_param(param);

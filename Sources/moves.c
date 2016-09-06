@@ -6,13 +6,13 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 16:45:52 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 15:18:46 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 19:41:20 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void	move_forward(t_param *param)
+static void	move_forward(t_param *param)
 {
 	t_vector	go;
 
@@ -23,7 +23,7 @@ void	move_forward(t_param *param)
 		add_vectors(CAM_POS, &go);
 }
 
-void	move_backward(t_param *param)
+static void	move_backward(t_param *param)
 {
 	t_vector go;
 
@@ -34,7 +34,7 @@ void	move_backward(t_param *param)
 		sub_vectors(CAM_POS, &go);
 }
 
-void	move_side_left(t_param *param)
+static void	move_straff_left(t_param *param)
 {
 	t_vector go;
 
@@ -46,7 +46,7 @@ void	move_side_left(t_param *param)
 		sub_vectors(CAM_POS, &go);
 }
 
-void	move_side_right(t_param *param)
+static void	move_straff_right(t_param *param)
 {
 	t_vector go;
 
@@ -58,15 +58,25 @@ void	move_side_right(t_param *param)
 		sub_vectors(CAM_POS, &go);
 }
 
-int		moves(t_param *param)
+int			moves(t_param *param)
 {
 	if (MOVES & M_STRAFF_L)
-		move_side_left(param);
+		move_straff_left(param);
 	if (MOVES & M_STRAFF_R)
-		move_side_right(param);
-	if (MOVES & M_UP)
+		move_straff_right(param);
+	if (MOVES & M_FORWARD)
 		move_forward(param);
-	if (MOVES & M_DOWN)
+	if (MOVES & M_BACKWARD)
 		move_backward(param);
+	if (MOVES & M_LEFT)
+	{
+		rot_vector(CAM_DIR, 0.05);
+		rot_vector(SCREEN, 0.05);
+	}
+	if (MOVES & M_RIGHT)
+	{
+		rot_vector(CAM_DIR, -0.05);
+		rot_vector(SCREEN, -0.05);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 15:13:35 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 20:10:22 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,14 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 	i = 0;
 	while (++y1 <= y2)
 	{
-		pix = (((int)((i + (LINE_H - height) / 2) * (TEXTX-1) / LINE_H) * TEXSIZEL) + (int)(x * (TEXTX-1) / LINE_H) * (BPP / 8));
-		//color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 + WALL_ADDR[pix + 2] * 65536;
-		i++;
+		
+		if (MAP[MAPX][MAPY][0] == '2')
+		{
+			pix = (((int)((i++ + (LINE_H - height) / 2) * TEXTX / LINE_H) *
+					TEXSIZEL) + (int)(fabs(x - WIN_WIDTH / 2.0) * TEXTX / LINE_H) * (BPP / 8));
+			color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
+				WALL_ADDR[pix + 2] * 65536;
+		}
 		img_put_pixel(param, x, y1, color);
 	}
 }

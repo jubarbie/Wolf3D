@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 15:18:50 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 19:14:28 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@
 # define RAY_POS param->rayPos
 # define RAY_DIR param->rayDir
 # define MOVES param->moves
-# define M_UP (1 << 0)
-# define M_DOWN (1 << 1)
+# define M_FORWARD (1 << 0)
+# define M_BACKWARD (1 << 1)
 # define M_LEFT (1 << 2)
 # define M_RIGHT (1 << 3)
 # define M_STRAFF_L (1 << 4)
@@ -136,21 +136,18 @@ void			sub_vectors(t_vector *v1, t_vector *v2);
 void			time_vector(t_vector *v, double i);
 
 int				moves(t_param *param);
-void			move_forward(t_param *param);
-void			move_backward(t_param *param);
-void			move_side_left(t_param *param);
-void			move_side_right(t_param *param);
 
 void			raycast(t_param *param);
 void			draw_line(int x, int y1, int y2, t_param *param);
 
+int				quit_wolf(t_param *parsm);
 void			error_usage(void);
 void			error_opt(char opt);
 
 unsigned int		hsv_to_rgb(unsigned int h, double s, double v);
 void			draw_line_h(int y, unsigned int color, t_param *param);
 
-int				ft_keyPress(int keycode, t_param *param);
-int				ft_keyRelease(int keycode, t_param *param);
+int				ft_key_press(int keycode, t_param *param);
+int				ft_key_release(int keycode, t_param *param);
 
 #endif
