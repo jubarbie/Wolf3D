@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/05 18:30:33 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 15:18:48 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ void		free_param(t_param *param)
 
 void		init_cam(t_param *param)
 {
-	CAM_POS = new_vector(2, 25);
-	CAM_DIR = new_vector(-1, 0);
+	CAM_POS = new_vector(2, 23);
+	CAM_DIR = new_vector(1, 0);
 	CAM_HEIGHT = 1 / 2;
 	SCREEN = new_vector(0, 0.66);
 	RAY_DIR = new_vector(0, 0);
 	param->sideDist = new_vector(0, 0);
 	param->deltaDist = new_vector(0, 0);
 	SPEED = 0.2;
+	MOVES = 0;
 }
 
 t_param		*init_param(int size_x, int size_y)

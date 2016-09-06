@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/19 13:16:45 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/05 16:44:47 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 15:02:30 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void		rot_vector(t_vector *v, double a)
 	double tmp;
 
 	tmp = v->x;
-	v->x = (v->x * cos(a)) + (v->y * -sin(a));
-	v->y = (tmp * sin(a)) + (v->y * cos(a));
+	v->x = (v->x * cos(a)) + (v->y * sin(a));
+	v->y = (tmp * -sin(a)) + (v->y * cos(a));
 }
 
 void		time_vector(t_vector *v, double i)

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/05 19:28:34 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 15:18:50 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@
 # define SCREEN_X param->screenX
 # define RAY_POS param->rayPos
 # define RAY_DIR param->rayDir
+# define MOVES param->moves
+# define M_UP (1 << 0)
+# define M_DOWN (1 << 1)
+# define M_LEFT (1 << 2)
+# define M_RIGHT (1 << 3)
+# define M_STRAFF_L (1 << 4)
+# define M_STRAFF_R (1 << 5)
 
 # define DISTX param->sideDist->x
 # define DISTY param->sideDist->y
@@ -105,6 +112,7 @@ typedef struct	s_param
 	int			tex_sizeline;
 	void		*wall;
 	char		*wall_addr;
+	char		moves;
 }				t_param;
 
 typedef	struct	s_pix
@@ -127,6 +135,7 @@ void			add_vectors(t_vector *v1, t_vector *v2);
 void			sub_vectors(t_vector *v1, t_vector *v2);
 void			time_vector(t_vector *v, double i);
 
+int				moves(t_param *param);
 void			move_forward(t_param *param);
 void			move_backward(t_param *param);
 void			move_side_left(t_param *param);
@@ -141,6 +150,7 @@ void			error_opt(char opt);
 unsigned int		hsv_to_rgb(unsigned int h, double s, double v);
 void			draw_line_h(int y, unsigned int color, t_param *param);
 
-int				ft_key(int keycode, t_param *param);
+int				ft_keyPress(int keycode, t_param *param);
+int				ft_keyRelease(int keycode, t_param *param);
 
 #endif

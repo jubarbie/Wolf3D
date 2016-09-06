@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 20:11:28 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/05 20:00:00 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 15:18:52 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ static int	create_img(t_param *param)
 	while (++i < WIN_HEIGHT / 2)
 		draw_line_h(i, hsv_to_rgb(i / 3 + 220, 0.7, 0.2), param);
 	while (++i < WIN_HEIGHT)
-		draw_line_h(i, hsv_to_rgb(150, 2.6, 0 +
-					((float)(i - (float)WIN_HEIGHT / 2) / 2000)), param);
+		draw_line_h(i, hsv_to_rgb(150, 0.2, 0 +
+					((float)(i - (float)WIN_HEIGHT / 2) / 1000)), param);
 	raycast(param);
+	moves(param);
 	mlx_put_image_to_window(MLX, WIN, IMG, 0, 0);
 	return (0);
 }
@@ -69,7 +70,8 @@ int			main(void)
 	init_cam(param);
 	display_map(param);
 	mlx_loop_hook(MLX, create_img, param);
-	mlx_hook(WIN, KeyPress, KeyPressMask, ft_key, param);
+	mlx_hook(WIN, KeyPress, KeyPressMask, ft_keyPress, param);
+	mlx_hook(WIN, KeyRelease, KeyReleaseMask, ft_keyRelease, param);
 	mlx_loop(MLX);
 	free_param(param);
 	return (0);

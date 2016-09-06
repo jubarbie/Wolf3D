@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/05 18:31:49 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/06 15:13:35 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 	int				height;
 	int				i;
 	unsigned int	color;
-	//unsigned int	r = 0;
-	//unsigned int	g = 0;
-	//unsigned int	b = 0;
-	//int				pix;
+	int				pix;
 
 	height = (y2 - y1);
 	color = hsv_to_rgb(120, 0.3, 0.3 - (WALLDIST / 80 + (float)SIDE / 60));
@@ -72,14 +69,9 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 	i = 0;
 	while (++y1 <= y2)
 	{
-		/*pix = (int)(i++ * (TEXTX / LINE_H) * TEXSIZEL + x * (TEXTX / WIN_WIDTH) * (BPP / 8));
-		color = 0;
-		r = WALL_ADDR[pix];
-		g = WALL_ADDR[pix + 1];
-		b = WALL_ADDR[pix + 2];
-		color = r << 16;
-		color |= g << 8;
-		color |= b;*/
+		pix = (((int)((i + (LINE_H - height) / 2) * (TEXTX-1) / LINE_H) * TEXSIZEL) + (int)(x * (TEXTX-1) / LINE_H) * (BPP / 8));
+		//color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 + WALL_ADDR[pix + 2] * 65536;
+		i++;
 		img_put_pixel(param, x, y1, color);
 	}
 }
