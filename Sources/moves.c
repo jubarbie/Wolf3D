@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 16:45:52 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 19:41:20 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/07 15:20:56 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ int			moves(t_param *param)
 		move_backward(param);
 	if (MOVES & M_LEFT)
 	{
-		rot_vector(CAM_DIR, 0.05);
-		rot_vector(SCREEN, 0.05);
+		rot_vector(CAM_DIR, 0.5 * SPEED);
+		rot_vector(SCREEN, 0.5 * SPEED);
 	}
 	if (MOVES & M_RIGHT)
 	{
-		rot_vector(CAM_DIR, -0.05);
-		rot_vector(SCREEN, -0.05);
+		rot_vector(CAM_DIR, -0.5 * SPEED);
+		rot_vector(SCREEN, -0.5 * SPEED);
 	}
 	return (0);
 }

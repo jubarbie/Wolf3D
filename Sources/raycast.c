@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 20:10:22 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/07 17:17:09 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 	int				i;
 	unsigned int	color;
 	int				pix;
+	double			wallx;
+	int				textx;
 
 	height = (y2 - y1);
 	color = hsv_to_rgb(120, 0.3, 0.3 - (WALLDIST / 80 + (float)SIDE / 60));
@@ -69,13 +71,23 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 	i = 0;
 	while (++y1 <= y2)
 	{
-		
+		if (SIDE == 0)
+			wallx = CAM_POS->y + WALLDIST * RAY_DIR->y;
+		else
+			wallx = CAM_POS->x + WALLDIST * RAY_DIR->x;
+		wallx -= floor(wallx);
+		textx = (int)(wallx * (double)(TEXTX));
+		if (SIDE == 0 && RAY_DIR->x > 0)
+			textx = TEXTX - textx - 1;
+		if (SIDE == 1 && RAY_DIR->y < 0)
+			textx = TEXTX - textx - 1;
 		if (MAP[MAPX][MAPY][0] == '2')
 		{
 			pix = (((int)((i++ + (LINE_H - height) / 2) * TEXTX / LINE_H) *
-					TEXSIZEL) + (int)(fabs(x - WIN_WIDTH / 2.0) * TEXTX / LINE_H) * (BPP / 8));
-			color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
-				WALL_ADDR[pix + 2] * 65536;
+					TEXSIZEL) + textx * (BPP / 8));
+			if (MAP[MAPX][MAPY][0] == '2')
+				color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
+								WALL_ADDR[pix + 2] * 65536;
 		}
 		img_put_pixel(param, x, y1, color);
 	}
@@ -86,15 +98,18 @@ void		raycast(t_param *param)
 	int		x;
 	double	draw_start;
 	double	draw_end;
+	int		dec;
 
 	x = -1;
+	//dec = 7 * sin(5 * (CAM_POS->x - CAM_POS->y));
+	dec = 0;
 	while (++x < WIN_WIDTH)
 	{
 		init_raycast_param(x, param);
 		find_wall(param);
 		LINE_H = WIN_HEIGHT / WALLDIST;
-		draw_start = WIN_HEIGHT / 2 - LINE_H / 2;
-		draw_end = WIN_HEIGHT / 2 + LINE_H / 2;
+		draw_start = (WIN_HEIGHT / 2) - LINE_H / 2;
+		draw_end = (WIN_HEIGHT / 2) + LINE_H / 2;
 		draw_start = (draw_start < 0) ? 0 : draw_start;
 		draw_end = (draw_end >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : draw_end;
 		draw_line(x, (int)draw_start, (int)draw_end, param);

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 19:14:28 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/07 11:43:28 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include </System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11/X.h>
 # include <OpenCL/opencl.h>
 # include <pthread.h>
+# include <time.h>
 # include "mlx.h"
 # include "libft.h"
 

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/06 20:04:29 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/07 17:16:09 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void		init_cam(t_param *param)
 	RAY_DIR = new_vector(0, 0);
 	param->sideDist = new_vector(0, 0);
 	param->deltaDist = new_vector(0, 0);
-	SPEED = 0.2;
+	SPEED = 0.1;
 	MOVES = 0;
 }
 
