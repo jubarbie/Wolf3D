@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 20:11:28 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/07 17:16:24 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/13 10:18:26 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			main(void)
 {
 	t_param		*param;
 
-	param = init_param(500, 400);
+	param = init_param(1400, 900);
 	MAP = create_map(param, "Maps/map3.w3d");
 	init_cam(param);
 	//display_map(param);

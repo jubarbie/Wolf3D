@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/07 17:17:09 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/13 10:20:29 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 			if (SIDE == 1 && RAY_DIR->y < 0)
 				textx = TEXTX - textx - 1;
 			pix = (((int)((i++ + (LINE_H - height - 1) / 2) *
-			TEXTX / LINE_H) * TEXSIZEL) + textx * (BPP / 8));
+							TEXTX / LINE_H) * TEXSIZEL) + textx * (BPP / 8));
 			color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
 								WALL_ADDR[pix + 2] * 65536;
 		}
