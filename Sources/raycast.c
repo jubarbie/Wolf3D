@@ -64,31 +64,36 @@ void		draw_line(int x, int y1, int y2, t_param *param)
 	int				pix;
 	double			wallx;
 	int				textx;
+	int	h;
+	double	s;
+	double	v;
 
 	height = (y2 - y1);
-	color = hsv_to_rgb(120, 0.3, 0.3 - (WALLDIST / 80 + (float)SIDE / 60));
 	y1--;
 	i = 0;
 	while (++y1 <= y2)
-	{
-		if (SIDE == 0)
-			wallx = CAM_POS->y + WALLDIST * RAY_DIR->y;
-		else
-			wallx = CAM_POS->x + WALLDIST * RAY_DIR->x;
-		wallx -= floor(wallx);
-		textx = (int)(wallx * (double)(TEXTX));
-		if (SIDE == 0 && RAY_DIR->x > 0)
-			textx = TEXTX - textx - 1;
-		if (SIDE == 1 && RAY_DIR->y < 0)
-			textx = TEXTX - textx - 1;
-		if (MAP[MAPX][MAPY][0] == '2')
+	{	
+		if (MAP[MAPX][MAPY][0] > '0' && WALLDIST < 25.0)
 		{
-			pix = (((int)((i++ + (LINE_H - height) / 2) * TEXTX / LINE_H) *
-					TEXSIZEL) + textx * (BPP / 8));
-			if (MAP[MAPX][MAPY][0] == '2')
-				color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
+			if (SIDE == 0)
+				wallx = CAM_POS->y + WALLDIST * RAY_DIR->y;
+			else
+				wallx = CAM_POS->x + WALLDIST * RAY_DIR->x;
+			wallx -= floor(wallx);
+			textx = (int)(wallx * (double)(TEXTX));
+			if (SIDE == 0 && RAY_DIR->x > 0)
+				textx = TEXTX - textx - 1;
+			if (SIDE == 1 && RAY_DIR->y < 0)
+				textx = TEXTX - textx - 1;
+			pix = (((int)((i++ + (LINE_H - height - 1) / 2) *
+			TEXTX / LINE_H) * TEXSIZEL) + textx * (BPP / 8));
+			color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
 								WALL_ADDR[pix + 2] * 65536;
 		}
+		else
+			color = hsv_to_rgb(120, 0, 0);
+		rgb_to_hsv(color, &h, &s, &v);
+		color = hsv_to_rgb(h, s, v - (WALLDIST / 80 + (float)SIDE / 60));
 		img_put_pixel(param, x, y1, color);
 	}
 }

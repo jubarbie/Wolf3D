@@ -65,7 +65,7 @@ int			main(void)
 {
 	t_param		*param;
 
-	param = init_param(1400, 900);
+	param = init_param(500, 400);
 	MAP = create_map(param, "Maps/map3.w3d");
 	init_cam(param);
 	//display_map(param);

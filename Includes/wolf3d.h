@@ -69,6 +69,8 @@
 # define TEXTX param->text_x
 # define TEXSIZEL param->tex_sizeline
 
+# define MENU
+
 typedef struct	s_vector
 {
 	double	x;
@@ -114,6 +116,8 @@ typedef struct	s_param
 	void		*wall;
 	char		*wall_addr;
 	char		moves;
+
+	char		menu;
 }				t_param;
 
 typedef	struct	s_pix
@@ -146,6 +150,7 @@ void			error_usage(void);
 void			error_opt(char opt);
 
 unsigned int		hsv_to_rgb(unsigned int h, double s, double v);
+void			rgb_to_hsv(unsigned int rgb, int *h, double *s, double *v);
 void			draw_line_h(int y, unsigned int color, t_param *param);
 
 int				ft_key_press(int keycode, t_param *param);

@@ -91,11 +91,13 @@ t_param		*init_param(int size_x, int size_y)
 	WIN_HEIGHT = size_y;
 	BPP = 24;
 	SIZELINE = WIN_WIDTH * (BPP / 8);
-	TEXTX = 158;
+	TEXTX = 512;
 	TEXSIZEL = TEXTX * (BPP / 8);
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
 	WALL = mlx_xpm_file_to_image(MLX, "Img/wall.xpm", &TEXTX, &TEXTX);
 	WALL_ADDR = mlx_get_data_addr(WALL, &BPP, &TEXSIZEL, &ENDIAN);
+	MENU = 0;
+	MENU |= (1 << 0);
 	return (param);
 }
