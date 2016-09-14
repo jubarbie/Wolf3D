@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/13 10:20:29 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 08:42:58 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,48 +56,6 @@ static void	init_raycast_param(int x, t_param *param)
 		(MAPY + 1.0 - CAM_POS->y) * DDISTY;
 }
 
-void		draw_line(int x, int y1, int y2, t_param *param)
-{
-	int				height;
-	int				i;
-	unsigned int	color;
-	int				pix;
-	double			wallx;
-	int				textx;
-	int	h;
-	double	s;
-	double	v;
-
-	height = (y2 - y1);
-	y1--;
-	i = 0;
-	while (++y1 <= y2)
-	{	
-		if (MAP[MAPX][MAPY][0] > '0' && WALLDIST < 25.0)
-		{
-			if (SIDE == 0)
-				wallx = CAM_POS->y + WALLDIST * RAY_DIR->y;
-			else
-				wallx = CAM_POS->x + WALLDIST * RAY_DIR->x;
-			wallx -= floor(wallx);
-			textx = (int)(wallx * (double)(TEXTX));
-			if (SIDE == 0 && RAY_DIR->x > 0)
-				textx = TEXTX - textx - 1;
-			if (SIDE == 1 && RAY_DIR->y < 0)
-				textx = TEXTX - textx - 1;
-			pix = (((int)((i++ + (LINE_H - height - 1) / 2) *
-							TEXTX / LINE_H) * TEXSIZEL) + textx * (BPP / 8));
-			color = WALL_ADDR[pix] + WALL_ADDR[pix + 1] * 256 +
-								WALL_ADDR[pix + 2] * 65536;
-		}
-		else
-			color = hsv_to_rgb(120, 0, 0);
-		rgb_to_hsv(color, &h, &s, &v);
-		color = hsv_to_rgb(h, s, v - (WALLDIST / 80 + (float)SIDE / 60));
-		img_put_pixel(param, x, y1, color);
-	}
-}
-
 void		raycast(t_param *param)
 {
 	int		x;
@@ -106,8 +64,7 @@ void		raycast(t_param *param)
 	int		dec;
 
 	x = -1;
-	//dec = 7 * sin(5 * (CAM_POS->x - CAM_POS->y));
-	dec = 0;
+	dec = 7 * sin(5 * (CAM_POS->x - CAM_POS->y));
 	while (++x < WIN_WIDTH)
 	{
 		init_raycast_param(x, param);
@@ -117,6 +74,6 @@ void		raycast(t_param *param)
 		draw_end = (WIN_HEIGHT / 2) + LINE_H / 2;
 		draw_start = (draw_start < 0) ? 0 : draw_start;
 		draw_end = (draw_end >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : draw_end;
-		draw_line(x, (int)draw_start, (int)draw_end, param);
+		draw_raycast_line(x, (int)draw_start, (int)draw_end, param);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: jubarbie <jubarbie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/10/30 16:51:35 by jubarbie          #+#    #+#              #
-#    Updated: 2016/09/05 19:49:24 by jubarbie         ###   ########.fr        #
+#    Updated: 2016/09/14 08:32:35 by jubarbie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,9 @@ SRC=	Sources/wolf3d.c		\
 		Sources/error.c			\
 		Sources/key_event.c		\
 		Sources/moves.c			\
-		Sources/rgb_to_hsv.c		\
-		Sources/hsv_to_rgb.c		\
+		Sources/rgb_to_hsv.c	\
+		Sources/hsv_to_rgb.c	\
+		Sources/display.c		\
 		Sources/raycast.c		
 OBJ=$(SRC:.c=.o)
 NAME=wolf3d

@@ -6,13 +6,13 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 20:11:28 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/13 10:18:26 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 08:36:57 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-/*static void	display_map(t_param *param)
+static void	display_map(t_param *param)
 {
 	int i;
 	int j;
@@ -29,7 +29,7 @@
 		}
 		ft_putchar('\n');
 	}
-}*/
+}
 
 static int	create_img(t_param *param)
 {
@@ -47,28 +47,14 @@ static int	create_img(t_param *param)
 	return (0);
 }
 
-void		img_put_pixel(t_param *param, int x, int y, unsigned int color)
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-
-	b = ((color & 0x00FF0000) >> 16);
-	g = ((color & 0x00FF00) >> 8);
-	r = (color & 0x00FF);
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8)] = r;
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 1] = g;
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 2] = b;
-}
-
 int			main(void)
 {
 	t_param		*param;
 
-	param = init_param(1400, 900);
+	param = init_param(900, 600);
 	MAP = create_map(param, "Maps/map3.w3d");
 	init_cam(param);
-	//display_map(param);
+	display_map(param);
 	mlx_loop_hook(MLX, create_img, param);
 	mlx_hook(WIN, 17, Button1MotionMask, quit_wolf, param);
 	mlx_hook(WIN, KeyPress, KeyPressMask, ft_key_press, param);

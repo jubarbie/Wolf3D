@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 17:01:44 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/05 19:55:14 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 08:35:26 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,4 @@ unsigned int		hsv_to_rgb(unsigned int h, double s, double v)
 		return (rgb_case2(h, c, x, m));
 	else
 		return (rgb_case3(h, c, x, m));
-}
-
-void				draw_line_h(int y, unsigned int color, t_param *param)
-{
-	int	i;
-
-	i = -1;
-	while (++i < WIN_WIDTH)
-		img_put_pixel(param, i, y, color);
 }

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/07 11:43:28 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 08:47:22 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,23 @@
 
 # define MLX param->mlx
 # define WIN param->win
-# define WIN_WIDTH param->winWidth
-# define WIN_HEIGHT param->winHeight
+# define WIN_WIDTH param->win_width
+# define WIN_HEIGHT param->win_height
 # define BPP param->bpp
 # define SIZELINE param->sizeline
 # define ENDIAN param->endian
 # define IMG param->img
 # define IMG_ADDR param->img_addr
 # define MAP param->map
-# define MAP_WIDTH param->mapWidth
-# define MAP_HEIGHT param->mapHeight
-# define CAM_POS param->camPos
-# define CAM_DIR param->camDir
+# define MAP_WIDTH param->map_width
+# define MAP_HEIGHT param->map_height
+# define CAM_POS param->cam_pos
+# define CAM_DIR param->cam_dir
 # define CAM_HEIGHT param->cam_height
 # define SCREEN param->screen
-# define SCREEN_X param->screenX
-# define RAY_POS param->rayPos
-# define RAY_DIR param->rayDir
+# define SCREEN_X param->screen_x
+# define RAY_POS param->ray_pos
+# define RAY_DIR param->ray_dir
 # define MOVES param->moves
 # define M_FORWARD (1 << 0)
 # define M_BACKWARD (1 << 1)
@@ -52,16 +52,16 @@
 # define M_STRAFF_L (1 << 4)
 # define M_STRAFF_R (1 << 5)
 
-# define DISTX param->sideDist->x
-# define DISTY param->sideDist->y
-# define DDISTX param->deltaDist->x
-# define DDISTY param->deltaDist->y
-# define MAPX param->mapX
-# define MAPY param->mapY
-# define WALLDIST param->prepWallDist
-# define LINE_H param->lineHeight
-# define STEPX param->stepX
-# define STEPY param->stepY
+# define DISTX param->side_dist->x
+# define DISTY param->side_dist->y
+# define DDISTX param->delta_dist->x
+# define DDISTY param->delta_dist->y
+# define MAPX param->map_x
+# define MAPY param->map_y
+# define WALLDIST param->prep_wall_dist
+# define LINE_H param->line_height
+# define STEPX param->step_x
+# define STEPY param->step_y
 # define SIDE param->side
 # define SPEED param->speed
 # define WALL param->wall
@@ -81,8 +81,8 @@ typedef struct	s_param
 {
 	void		*mlx;
 	void		*win;
-	int			winWidth;
-	int			winHeight;
+	int			win_width;
+	int			win_height;
 	int			bpp;
 	int			sizeline;
 	int			endian;
@@ -90,25 +90,25 @@ typedef struct	s_param
 	char		*img_addr;
 
 	char		***map;
-	int			mapWidth;
-	int			mapHeight;
+	int			map_width;
+	int			map_height;
 
 	double		cam_height;
-	t_vector	*camPos;
-	t_vector	*camDir;
+	t_vector	*cam_pos;
+	t_vector	*cam_dir;
 	t_vector	*screen;
-	double		screenX;
-	t_vector	*rayPos;
-	t_vector	*rayDir;
+	double		screen_x;
+	t_vector	*ray_pos;
+	t_vector	*ray_dir;
 
-	t_vector	*sideDist;
-	t_vector	*deltaDist;
-	double		prepWallDist;
-	double		lineHeight;
-	int			mapX;
-	int			mapY;
-	int			stepX;
-	int			stepY;
+	t_vector	*side_dist;
+	t_vector	*delta_dist;
+	double		prep_wall_dist;
+	double		line_height;
+	int			map_x;
+	int			map_y;
+	int			step_x;
+	int			step_y;
 	char		side;
 	double		speed;
 	int			text_x;
@@ -129,7 +129,7 @@ typedef	struct	s_pix
 
 t_param			*init_param(int size_x, int size_y);
 void			free_param(t_param *param);
-char        	***create_map(t_param *param, char *file_name);
+char			***create_map(t_param *param, char *file_name);
 void			init_cam(t_param *param);
 
 void			img_put_pixel(t_param *param, int x, int y, unsigned int color);
@@ -143,13 +143,13 @@ void			time_vector(t_vector *v, double i);
 int				moves(t_param *param);
 
 void			raycast(t_param *param);
-void			draw_line(int x, int y1, int y2, t_param *param);
+void			draw_raycast_line(int x, int y1, int y2, t_param *param);
 
 int				quit_wolf(t_param *parsm);
 void			error_usage(void);
 void			error_opt(char opt);
 
-unsigned int		hsv_to_rgb(unsigned int h, double s, double v);
+unsigned int	hsv_to_rgb(unsigned int h, double s, double v);
 void			rgb_to_hsv(unsigned int rgb, int *h, double *s, double *v);
 void			draw_line_h(int y, unsigned int color, t_param *param);
 

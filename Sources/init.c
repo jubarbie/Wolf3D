@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/13 10:17:26 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 08:47:20 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ char		***create_map(t_param *param, char *file_name)
 	MAP_HEIGHT = 0;
 	while ((stop = get_next_line(fd, &line)) > 0)
 		MAP_HEIGHT++;
-	if (stop == -1 || MAP_HEIGHT == 0)
-		exit(EXIT_FAILURE);
 	close(fd);
 	if (!(tab = malloc(sizeof(char **) * MAP_HEIGHT)) ||
-			((fd = open(file_name, O_RDONLY)) == -1))
+	((fd = open(file_name, O_RDONLY)) == -1) || stop == -1 || MAP_HEIGHT == 0)
 		exit(EXIT_FAILURE);
 	MAP_HEIGHT = 0;
 	MAP_WIDTH = 100000000;
@@ -73,8 +71,8 @@ void		init_cam(t_param *param)
 	CAM_HEIGHT = 1 / 2;
 	SCREEN = new_vector(0, 0.66);
 	RAY_DIR = new_vector(0, 0);
-	param->sideDist = new_vector(0, 0);
-	param->deltaDist = new_vector(0, 0);
+	param->side_dist = new_vector(0, 0);
+	param->delta_dist = new_vector(0, 0);
 	SPEED = 0.1;
 	MOVES = 0;
 }
@@ -97,7 +95,5 @@ t_param		*init_param(int size_x, int size_y)
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
 	WALL = mlx_xpm_file_to_image(MLX, "Img/wall.xpm", &TEXTX, &TEXTX);
 	WALL_ADDR = mlx_get_data_addr(WALL, &BPP, &TEXSIZEL, &ENDIAN);
-	//MENU = 0;
-	//MENU |= (1 << 0);
 	return (param);
 }
