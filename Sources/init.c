@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 08:47:20 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 11:35:43 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,12 @@ t_param		*init_param(int size_x, int size_y)
 	SIZELINE = WIN_WIDTH * (BPP / 8);
 	TEXTX = 512;
 	TEXSIZEL = TEXTX * (BPP / 8);
+	MAP = create_map(param, "Maps/map3.w3d");
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
-	WALL = mlx_xpm_file_to_image(MLX, "Img/wall.xpm", &TEXTX, &TEXTX);
+	init_textures(param);
+	WALL = mlx_xpm_file_to_image(MLX, "Img/wall2.xpm", &TEXTX, &TEXTX);
 	WALL_ADDR = mlx_get_data_addr(WALL, &BPP, &TEXSIZEL, &ENDIAN);
+	init_cam(param);
 	return (param);
 }

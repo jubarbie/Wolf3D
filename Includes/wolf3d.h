@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 08:47:22 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/14 11:10:22 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,16 @@
 # define TEXTX param->text_x
 # define TEXSIZEL param->tex_sizeline
 
+# define TEX param->textures
+# define TX_AD(x) TEX[x]->addr
+
 # define MENU
+
+typedef struct	s_texture
+{
+	void		*img;
+	char		*addr;
+}				t_tex;
 
 typedef struct	s_vector
 {
@@ -116,6 +125,7 @@ typedef struct	s_param
 	void		*wall;
 	char		*wall_addr;
 	char		moves;
+	t_tex		**textures;
 
 	char		menu;
 }				t_param;
@@ -131,6 +141,7 @@ t_param			*init_param(int size_x, int size_y);
 void			free_param(t_param *param);
 char			***create_map(t_param *param, char *file_name);
 void			init_cam(t_param *param);
+void			init_textures(t_param *param);
 
 void			img_put_pixel(t_param *param, int x, int y, unsigned int color);
 
@@ -145,7 +156,7 @@ int				moves(t_param *param);
 void			raycast(t_param *param);
 void			draw_raycast_line(int x, int y1, int y2, t_param *param);
 
-int				quit_wolf(t_param *parsm);
+int				quit_wolf(t_param *param);
 void			error_usage(void);
 void			error_opt(char opt);
 
