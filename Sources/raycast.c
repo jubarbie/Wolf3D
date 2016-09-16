@@ -6,11 +6,64 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 08:42:58 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/16 17:03:22 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+static void	raycast_floor(int x, t_param *param)
+{
+	double	distPlayer, currentDist;
+	int		y;
+
+	if (SIDE == 0 && RAY_DIR->x > 0)
+	{
+		FLOOR_X = MAPX;
+		FLOOR_Y = MAPY + WALL_X;
+	}
+	else if (SIDE == 0 && RAY_DIR->x < 0)
+	{
+		FLOOR_X = MAPX + 1.0;
+		FLOOR_Y = MAPY + WALL_X;
+	}
+	else if (SIDE == 1 && RAY_DIR->y > 0)
+	{
+		FLOOR_X = MAPX + WALL_X;
+		FLOOR_Y = MAPY;
+	}
+	else
+	{
+		FLOOR_X = MAPX + WALL_X;
+		FLOOR_Y = MAPY + 1.0;
+	}
+
+	distPlayer = 0.0;
+
+	if (DRAW_END < 0) DRAW_END = WIN_HEIGHT;
+	y = DRAW_END;
+	while (++y < WIN_HEIGHT)
+	{
+		currentDist = WIN_HEIGHT / (2.0 * y - WIN_HEIGHT);
+		double weight = (currentDist - distPlayer) / (WALLDIST - distPlayer);
+
+		double currentFloorX = weight * FLOOR_X + (1.0 - weight) * CAM_POS->x;
+		double currentFloorY = weight * FLOOR_Y + (1.0 - weight) * CAM_POS->y;
+
+		int floorTexX;
+		int floorTexY;
+		floorTexX = (int)(currentFloorX * TEXTX) % TEXTX;
+		floorTexY = (int)(currentFloorY * TEXTX) % TEXTX;
+		int pix = floorTexY * TEXSIZEL + floorTexX * (BPP / 8);
+		unsigned int color = TX_AD(0)[pix] + (TX_AD(0)[pix + 1] << 8) + (TX_AD(0)[pix + 2] << 16);
+		int h;
+		double s;
+		double v;
+		rgb_to_hsv(color, &h, &s, &v);
+		color = hsv_to_rgb(h, s, v - 0.2 - (currentDist / 80));
+		img_put_pixel(param, x, y, color);
+	}
+}
 
 static void	find_wall(t_param *param)
 {
@@ -60,7 +113,7 @@ void		raycast(t_param *param)
 {
 	int		x;
 	double	draw_start;
-	double	draw_end;
+	//double	draw_end;
 	int		dec;
 
 	x = -1;
@@ -71,9 +124,10 @@ void		raycast(t_param *param)
 		find_wall(param);
 		LINE_H = WIN_HEIGHT / WALLDIST;
 		draw_start = (WIN_HEIGHT / 2) - LINE_H / 2;
-		draw_end = (WIN_HEIGHT / 2) + LINE_H / 2;
+		DRAW_END = (WIN_HEIGHT / 2) + LINE_H / 2;
 		draw_start = (draw_start < 0) ? 0 : draw_start;
-		draw_end = (draw_end >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : draw_end;
-		draw_raycast_line(x, (int)draw_start, (int)draw_end, param);
+		DRAW_END = (DRAW_END >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : DRAW_END;
+		draw_raycast_line(x, (int)draw_start, (int)DRAW_END, param);
+		raycast_floor(x, param);
 	}
 }

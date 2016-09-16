@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 13:52:16 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 12:22:26 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/16 16:54:43 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	get_pixel_color(int x, int y, int height, t_param *param)
 	{
 		pix = (((int)((y + (LINE_H - height + 1) / 2) *
 							TEXTX / (LINE_H + 1)) * TEXSIZEL) + x * (BPP / 8));
-		color = TX_AD(tex)[pix] + TX_AD(tex)[pix + 1] * 256 +
-													TX_AD(tex)[pix + 2] * 65536;
+		color = TX_AD(tex)[pix] + (TX_AD(tex)[pix + 1] << 8) +
+													(TX_AD(tex)[pix + 2] << 16);
 	}
 	else
 		color = hsv_to_rgb(120, 0, 0);
@@ -38,15 +38,14 @@ static int	get_pixel_color(int x, int y, int height, t_param *param)
 
 static int	get_texture_x(t_param *param)
 {
-	double	wallx;
 	int		textx;
 
 	if (SIDE == 0)
-		wallx = CAM_POS->y + WALLDIST * RAY_DIR->y;
+		WALL_X = CAM_POS->y + WALLDIST * RAY_DIR->y;
 	else
-		wallx = CAM_POS->x + WALLDIST * RAY_DIR->x;
-	wallx -= floor(wallx);
-	textx = (int)(wallx * (double)(TEXTX));
+		WALL_X = CAM_POS->x + WALLDIST * RAY_DIR->x;
+	WALL_X -= floor(WALL_X);
+	textx = (int)(WALL_X * (double)(TEXTX));
 	if (SIDE == 0 && RAY_DIR->x > 0)
 		textx = TEXTX - textx - 1;
 	if (SIDE == 1 && RAY_DIR->y < 0)

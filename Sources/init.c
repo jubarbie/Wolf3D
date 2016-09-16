@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 11:35:43 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/16 16:54:13 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,26 @@ char		***create_map(t_param *param, char *file_name)
 
 void		free_param(t_param *param)
 {
+	int	i;
+
 	mlx_destroy_image(MLX, IMG);
+	i = -1;
+	while (++i < NB_TEX)
+	{
+		mlx_destroy_image(MLX, TEX[i]->img);
+		TEX[i]->addr = NULL;
+	}
+	free(TEX);
+	i = -1;
+	while (++i < MAP_HEIGHT)
+		free(MAP[i]);
+	free(MAP);
+	free(CAM_POS);
+	free(CAM_DIR);
+	free(SCREEN);
+	free(RAY_DIR);
+	free(param->side_dist);
+	free(param->delta_dist);
 	MLX = NULL;
 	WIN = NULL;
 	IMG = NULL;
@@ -89,14 +108,10 @@ t_param		*init_param(int size_x, int size_y)
 	WIN_HEIGHT = size_y;
 	BPP = 24;
 	SIZELINE = WIN_WIDTH * (BPP / 8);
-	TEXTX = 512;
-	TEXSIZEL = TEXTX * (BPP / 8);
 	MAP = create_map(param, "Maps/map3.w3d");
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
-	init_textures(param);
-	WALL = mlx_xpm_file_to_image(MLX, "Img/wall2.xpm", &TEXTX, &TEXTX);
-	WALL_ADDR = mlx_get_data_addr(WALL, &BPP, &TEXSIZEL, &ENDIAN);
 	init_cam(param);
+	init_textures(param);
 	return (param);
 }

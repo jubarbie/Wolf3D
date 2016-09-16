@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 17:01:44 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 12:46:19 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/16 15:12:27 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,19 @@ static unsigned int	rgb_case1(unsigned int h, double c, double x, double m)
 	unsigned int	b;
 	unsigned int	rgb;
 
-	r = 0;
-	g = 0;
-	b = 0;
 	if (h < 60)
 	{
 		r = (unsigned int)((c + m) * 255.0);
 		g = (unsigned int)((x + m) * 255.0);
 		b = (unsigned int)((0 + m) * 255.0);
 	}
-	else if (h >= 60 && h < 120)
+	else
 	{
 		r = (unsigned int)((x + m) * 255.0);
 		g = (unsigned int)((c + m) * 255.0);
 		b = (unsigned int)((0 + m) * 255.0);
 	}
-	rgb = r << 16;
-	rgb |= g << 8;
-	rgb |= b;
+	rgb = (r << 16) + (g << 8) + b;
 	return (rgb);
 }
 
@@ -47,24 +42,19 @@ static unsigned int	rgb_case2(unsigned int h, double c, double x, double m)
 	unsigned int	b;
 	unsigned int	rgb;
 
-	r = 0;
-	g = 0;
-	b = 0;
 	if (h >= 120 && h < 180)
 	{
 		r = (unsigned int)((0 + m) * 255.0);
 		g = (unsigned int)((c + m) * 255.0);
 		b = (unsigned int)((x + m) * 255.0);
 	}
-	else if (h >= 180 && h < 240)
+	else
 	{
 		r = (unsigned int)((0 + m) * 255.0);
 		g = (unsigned int)((x + m) * 255.0);
 		b = (unsigned int)((c + m) * 255.0);
 	}
-	rgb = r << 16;
-	rgb |= g << 8;
-	rgb |= b;
+	rgb = (r << 16) + (g << 8) + b;
 	return (rgb);
 }
 
@@ -75,24 +65,19 @@ static unsigned int	rgb_case3(unsigned int h, double c, double x, double m)
 	unsigned int	b;
 	unsigned int	rgb;
 
-	r = 0;
-	g = 0;
-	b = 0;
 	if (h >= 240 && h < 300)
 	{
 		r = (unsigned int)((x + m) * 255.0);
 		g = (unsigned int)((0 + m) * 255.0);
 		b = (unsigned int)((c + m) * 255.0);
 	}
-	else if (h >= 300 && h < 360)
+	else
 	{
 		r = (unsigned int)((c + m) * 255.0);
 		g = (unsigned int)((0 + m) * 255.0);
 		b = (unsigned int)((x + m) * 255.0);
 	}
-	rgb = r << 16;
-	rgb |= g << 8;
-	rgb |= b;
+	rgb = (r << 16) + (g << 8) + b;
 	return (rgb);
 }
 
@@ -122,24 +107,24 @@ void				rgb_to_hsv(unsigned int rgb, int *h, double *s, double *v)
 {
 	double	c_max;
 	double	delta;
-	double	rp;
-	double	gp;
-	double	bp;
+	double	r;
+	double	g;
+	double	b;
 
-	bp = ((rgb & 0x00FF0000) >> 16) / 255.0;
-	gp = ((rgb & 0x00FF00) >> 8) / 255.0;
-	rp = (rgb & 0x00FF) / 255.0;
-	c_max = fmax(fmax(rp, gp), bp);
-	delta = fmin(fmin(rp, gp), bp);
+	b = ((rgb & 0x000000FF) >> 0) / 255.0;
+	g = ((rgb & 0x0000FF00) >> 8) / 255.0;
+	r = ((rgb & 0x00FF0000) >> 16) / 255.0;
+	c_max = fmax(fmax(r, g), b);
+	delta = fmin(fmin(r, g), b);
 	delta = c_max - delta;
 	if (delta == 0)
 		*h = 0;
-	else if (c_max == rp)
-		*h = (60 * fmod((gp - bp) / delta, 6));
-	else if (c_max == gp)
-		*h = (60 * ((bp - rp) / delta + 2));
-	else if (c_max == bp)
-		*h = (60 * ((rp - gp) / delta + 4));
+	else if (c_max == r)
+		*h = (60 * fmod((g - b) / delta, 6));
+	else if (c_max == g)
+		*h = (60 * ((b - r) / delta + 2));
+	else if (c_max == b)
+		*h = (60 * ((r - g) / delta + 4));
 	*s = ((c_max == 0) ? 0 : delta / c_max);
 	*v = c_max;
 }

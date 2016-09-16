@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/14 11:10:22 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/16 17:03:18 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,13 @@
 # define STEPX param->step_x
 # define STEPY param->step_y
 # define SIDE param->side
+# define WALL_X param->wall_x
+# define DRAW_END param->draw_end
+# define FLOOR_X param->floor_x
+# define FLOOR_Y param->floor_y
 # define SPEED param->speed
-# define WALL param->wall
-# define WALL_ADDR param->wall_addr
+
+# define NB_TEX 5
 # define TEXTX param->text_x
 # define TEXSIZEL param->tex_sizeline
 
@@ -119,13 +123,15 @@ typedef struct	s_param
 	int			step_x;
 	int			step_y;
 	char		side;
+	int			draw_end;
+	double		wall_x;
+	double		floor_x;
+	double		floor_y;
 	double		speed;
+	int			moves;
+	t_tex		**textures;
 	int			text_x;
 	int			tex_sizeline;
-	void		*wall;
-	char		*wall_addr;
-	char		moves;
-	t_tex		**textures;
 
 	char		menu;
 }				t_param;
