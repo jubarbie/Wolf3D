@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/16 16:54:13 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 16:19:17 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,17 @@ static int	nb_coord(char *str)
 	return (i);
 }
 
-char		***create_map(t_param *param, char *file_name)
+void		free_map(t_env *e)
+{
+	int	i;
+
+	i = -1;
+	while (++i < MAP_HEIGHT)
+		free(MAP[i]);
+	free(MAP);
+}
+
+char		***create_map(t_env *e, char *file_name)
 {
 	int		fd;
 	char	*line;
@@ -53,65 +63,4 @@ char		***create_map(t_param *param, char *file_name)
 		exit(EXIT_FAILURE);
 	close(fd);
 	return (tab);
-}
-
-void		free_param(t_param *param)
-{
-	int	i;
-
-	mlx_destroy_image(MLX, IMG);
-	i = -1;
-	while (++i < NB_TEX)
-	{
-		mlx_destroy_image(MLX, TEX[i]->img);
-		TEX[i]->addr = NULL;
-	}
-	free(TEX);
-	i = -1;
-	while (++i < MAP_HEIGHT)
-		free(MAP[i]);
-	free(MAP);
-	free(CAM_POS);
-	free(CAM_DIR);
-	free(SCREEN);
-	free(RAY_DIR);
-	free(param->side_dist);
-	free(param->delta_dist);
-	MLX = NULL;
-	WIN = NULL;
-	IMG = NULL;
-	free(param);
-}
-
-void		init_cam(t_param *param)
-{
-	CAM_POS = new_vector(2, 23);
-	CAM_DIR = new_vector(1, 0);
-	CAM_HEIGHT = 1 / 2;
-	SCREEN = new_vector(0, 0.66);
-	RAY_DIR = new_vector(0, 0);
-	param->side_dist = new_vector(0, 0);
-	param->delta_dist = new_vector(0, 0);
-	SPEED = 0.1;
-	MOVES = 0;
-}
-
-t_param		*init_param(int size_x, int size_y)
-{
-	t_param	*param;
-
-	if (!(param = (t_param *)malloc(sizeof(t_param))))
-		exit(EXIT_FAILURE);
-	MLX = mlx_init();
-	WIN = mlx_new_window(MLX, size_x, size_y, "Wolf3d");
-	WIN_WIDTH = size_x;
-	WIN_HEIGHT = size_y;
-	BPP = 24;
-	SIZELINE = WIN_WIDTH * (BPP / 8);
-	MAP = create_map(param, "Maps/map3.w3d");
-	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
-	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
-	init_cam(param);
-	init_textures(param);
-	return (param);
 }

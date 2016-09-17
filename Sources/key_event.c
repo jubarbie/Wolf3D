@@ -6,13 +6,13 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 19:47:10 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/16 17:03:11 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 13:58:32 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-static void	move(int keycode, t_param *param)
+static void	move(int keycode, t_env *e)
 {
 	if (keycode == 43)
 		MOVES |= M_STRAFF_L;
@@ -27,10 +27,10 @@ static void	move(int keycode, t_param *param)
 	else if (keycode == 124)
 		MOVES |= M_RIGHT;
 	else if (keycode == 258)
-		SPEED = 0.2;
+		SPEED *= 1.5;
 }
 
-int			ft_key_release(int keycode, t_param *param)
+int			ft_key_release(int keycode, t_env *e)
 {
 	if (keycode == 43)
 		MOVES ^= M_STRAFF_L;
@@ -45,16 +45,16 @@ int			ft_key_release(int keycode, t_param *param)
 	else if (keycode == 124)
 		MOVES ^= M_RIGHT;
 	else if (keycode == 258)
-		SPEED = 0.1;
+		SPEED /= 1.5;
 	return (0);
 }
 
-int			ft_key_press(int keycode, t_param *param)
+int			ft_key_press(int keycode, t_env *e)
 {
 	if (keycode == 53)
 	{
-		free_param(param);
-		exit(EXIT_SUCCESS);
+		free_env(e);
+		exit(EXIT_FAILURE);
 	}
 	else if (keycode == 30)
 		SCREEN->y += 0.01;
@@ -68,8 +68,6 @@ int			ft_key_press(int keycode, t_param *param)
 		SPEED -= (SPEED > 0.2) ? 0.1 : 0;
 	else if (keycode == 39)
 		SPEED += (SPEED < 5) ? 0.1 : 0;
-	else if (keycode == 260)
-		CAM_HEIGHT = 1 / 3;
-	move(keycode, param);
+	move(keycode, e);
 	return (0);
 }

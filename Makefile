@@ -6,21 +6,22 @@
 #    By: jubarbie <jubarbie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/10/30 16:51:35 by jubarbie          #+#    #+#              #
-#    Updated: 2016/09/14 12:34:34 by jubarbie         ###   ########.fr        #
+#    Updated: 2016/09/17 16:13:35 by jubarbie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=gcc
 CFLAGS= -ILibs/libft -ILibs/libmlx -IIncludes -Wall -Wextra -Werror
 SRC=	Sources/wolf3d.c		\
-		Sources/init.c			\
+		Sources/env.c			\
+		Sources/map.c			\
+		Sources/textures.c		\
 		Sources/vector.c		\
 		Sources/error.c			\
 		Sources/key_event.c		\
 		Sources/moves.c			\
 		Sources/color_hsv.c		\
 		Sources/display.c		\
-		Sources/textures.c		\
 		Sources/raycast.c		
 OBJ=$(SRC:.c=.o)
 NAME=wolf3d

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/17 11:13:46 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 16:21:15 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,23 @@
 # include "libft.h"
 
 # define PI 3.141592
+# define NB_TH 30
 
-# define MLX param->mlx
-# define WIN param->win
-# define WIN_WIDTH param->win_width
-# define WIN_HEIGHT param->win_height
-# define BPP param->bpp
-# define SIZELINE param->sizeline
-# define ENDIAN param->endian
-# define IMG param->img
-# define IMG_ADDR param->img_addr
-# define MAP param->map
-# define MAP_WIDTH param->map_width
-# define MAP_HEIGHT param->map_height
-# define CAM_POS param->cam_pos
-# define CAM_DIR param->cam_dir
-# define CAM_HEIGHT param->cam_height
-# define SCREEN param->screen
-# define SCREEN_X param->screen_x
-# define RAY_POS param->ray_pos
-# define RAY_DIR param->ray_dir
-# define MOVES param->moves
+# define MLX e->mlx
+# define WIN e->win
+# define WIN_WIDTH e->win_width
+# define WIN_HEIGHT e->win_height
+# define BPP e->bpp
+# define SIZELINE e->sizeline
+# define ENDIAN e->endian
+# define IMG e->img
+# define IMG_ADDR e->img_addr
+# define MAP e->map
+# define MAP_WIDTH e->map_width
+# define MAP_HEIGHT e->map_height
+
+# define MOVES e->moves
+# define SPEED e->speed
 # define M_FORWARD (1 << 0)
 # define M_BACKWARD (1 << 1)
 # define M_LEFT (1 << 2)
@@ -52,6 +48,23 @@
 # define M_STRAFF_L (1 << 4)
 # define M_STRAFF_R (1 << 5)
 
+# define CAM_POS e->cam_pos
+# define CAM_DIR e->cam_dir
+# define SCREEN e->screen
+# define SCREEN_X e->screen_x
+
+# define NB_TEX 7
+# define TEX e->textures
+# define TX_IM(x) TEX[x]->img
+# define TX_AD(x) TEX[x]->addr
+# define TXW(x) (TEX[x]->width)
+# define TXBPP(x) (TEX[x]->bpp)
+# define TXSZL(x) (TEX[x]->sizeline)
+
+
+# define ENV param->env
+# define TH param->index
+# define RAY_DIR param->ray_dir
 # define DISTX param->side_dist->x
 # define DISTY param->side_dist->y
 # define DDISTX param->delta_dist->x
@@ -67,18 +80,29 @@
 # define DRAW_END param->draw_end
 # define FLOOR_X param->floor_x
 # define FLOOR_Y param->floor_y
-# define SPEED param->speed
-
-# define NB_TEX 5
-# define TEX param->textures
 # define TX param->tex_index
-# define TX_AD(x) TEX[x]->addr
-# define TXW(x) (TEX[x]->width)
-# define TXBPP(x) (TEX[x]->bpp)
-# define TXSZL(x) (TEX[x]->sizeline)
+# define DIST_PLAYER param->dist_player
+# define CUR_DIST param->current_dist
+# define WEIGHT param->weight
+# define CUR_FLOORX param->current_floor_x
+# define CUR_FLOORY param->current_floor_y
+# define TX_FLOORX param->tex_floor_x
+# define TX_FLOORY param->tex_floor_y
 
-# define MENU
 
+typedef	struct	s_hsv
+{
+	int		h;
+	double	s;
+	double	v;
+}				t_hsv;
+
+typedef	struct	s_pix
+{
+	int				x;
+	int				y;
+	unsigned int	color;
+}				t_pix;
 typedef struct	s_texture
 {
 	void		*img;
@@ -94,30 +118,39 @@ typedef struct	s_vector
 	double	y;
 }				t_vector;
 
-typedef struct	s_param
+typedef struct	s_env
 {
-	void		*mlx;
-	void		*win;
-	int			win_width;
-	int			win_height;
-	int			bpp;
-	int			sizeline;
-	int			endian;
-	void		*img;
-	char		*img_addr;
+	void			*mlx;
+	void			*win;
+	int				win_width;
+	int				win_height;
+	int				bpp;
+	int				sizeline;
+	int				endian;
+	void			*img;
+	char			*img_addr;
 
-	char		***map;
-	int			map_width;
-	int			map_height;
+	char			***map;
+	int				map_width;
+	int				map_height;
+	t_tex			**textures;
+	double			speed;
+	int				moves;
+	char			menu;
 
-	double		cam_height;
-	t_vector	*cam_pos;
-	t_vector	*cam_dir;
-	t_vector	*screen;
-	double		screen_x;
-	t_vector	*ray_pos;
+	t_vector		*cam_pos;
+	t_vector		*cam_dir;
+	t_vector		*screen;
+	double			screen_x;
+
+	struct s_param	*param[NB_TH];
+}				t_env;
+
+typedef struct	s_param
+{	
+	t_env		*env;
+	int			index;
 	t_vector	*ray_dir;
-
 	t_vector	*side_dist;
 	t_vector	*delta_dist;
 	double		prep_wall_dist;
@@ -131,28 +164,30 @@ typedef struct	s_param
 	double		wall_x;
 	double		floor_x;
 	double		floor_y;
-	double		speed;
-	int			moves;
-	t_tex		**textures;
+	double		dist_player;
+	double		current_dist;
+	double		weight;
+	double		current_floor_x;
+	double		current_floor_y;
+	int			tex_floor_x;
+	int			tex_floor_y;
 	int			tex_index;
-
-	char		menu;
 }				t_param;
 
-typedef	struct	s_pix
-{
-	int				x;
-	int				y;
-	unsigned int	color;
-}				t_pix;
 
-t_param			*init_param(int size_x, int size_y);
+t_env			*init_env(int size_x, int size_y);
+void			free_env(t_env *e);
+char			***create_map(t_env *e, char *file_name);
+void			free_map(t_env *e);
+void			init_textures(t_env *e);
+void			free_textures(t_env *e);
+t_param			*init_param(t_env *e, int index);
 void			free_param(t_param *param);
-char			***create_map(t_param *param, char *file_name);
-void			init_cam(t_param *param);
-void			init_textures(t_param *param);
 
-void			img_put_pixel(t_param *param, int x, int y, unsigned int color);
+void			img_put_pixel(t_env *e, int x, int y, unsigned int color);
+void			draw_sky_floor(t_env *e);
+void			draw_raycast_line(t_param *param, int x, int y1, int y2);
+void			*raycast(void *arg);
 
 t_vector		*new_vector(double x, double y);
 void			rot_vector(t_vector *v, double angle);
@@ -160,20 +195,16 @@ void			add_vectors(t_vector *v1, t_vector *v2);
 void			sub_vectors(t_vector *v1, t_vector *v2);
 void			time_vector(t_vector *v, double i);
 
-int				moves(t_param *param);
+int				moves(t_env *e);
 
-void			raycast(t_param *param);
-void			draw_raycast_line(int x, int y1, int y2, t_param *param);
-
-int				quit_wolf(t_param *param);
+int				quit_wolf(t_env *e);
 void			error_usage(void);
 void			error_opt(char opt);
 
 unsigned int	hsv_to_rgb(unsigned int h, double s, double v);
 void			rgb_to_hsv(unsigned int rgb, int *h, double *s, double *v);
-void			draw_line_h(int y, unsigned int color, t_param *param);
 
-int				ft_key_press(int keycode, t_param *param);
-int				ft_key_release(int keycode, t_param *param);
+int				ft_key_press(int keycode, t_env *e);
+int				ft_key_release(int keycode, t_env *e);
 
 #endif

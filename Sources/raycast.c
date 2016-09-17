@@ -6,17 +6,17 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/17 11:13:54 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 16:25:57 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-/*static void	raycast_floor(int x, t_param *param)
+static void	init_raycast_floor(t_param *param)
 {
-	double	distPlayer, currentDist;
-	int		y;
+	t_env	*e;
 
+	e = ENV;
 	if (SIDE == 0 && RAY_DIR->x > 0)
 	{
 		FLOOR_X = MAPX;
@@ -37,35 +37,51 @@
 		FLOOR_X = MAPX + WALL_X;
 		FLOOR_Y = MAPY + 1.0;
 	}
+}
 
-	distPlayer = 0.0;
+static void	raycast_floor(t_param *param, int x)
+{
+	t_env			*e;
+	int				y;
+	int				pix;
+	unsigned int	color;
+	t_hsv			hsv;
+	int				id;
 
-	if (DRAW_END < 0) DRAW_END = WIN_HEIGHT;
+	e = ENV;
+	init_raycast_floor(param);
+	DIST_PLAYER = 0.0;
+	if (DRAW_END < 0)
+		DRAW_END = WIN_HEIGHT;
 	y = DRAW_END;
 	while (++y < WIN_HEIGHT)
 	{
-		currentDist = WIN_HEIGHT / (2.0 * y - WIN_HEIGHT);
-		double weight = (currentDist - distPlayer) / (WALLDIST - distPlayer);
-
-		double currentFloorX = weight * FLOOR_X + (1.0 - weight) * CAM_POS->x;
-		double currentFloorY = weight * FLOOR_Y + (1.0 - weight) * CAM_POS->y;
-
-		int floorTexX;
-		int floorTexY;
-		floorTexX = (int)(currentFloorX * TXW(4)) % TXW(4);
-		floorTexY = (int)(currentFloorY * TXW(4)) % TXW(4);
-		int pix = floorTexY * TXSZL(4) + floorTexX * (TXBPP(4) / 8);
-		unsigned int color = TX_AD(4)[pix] + (TX_AD(4)[pix + 1] << 8) + (TX_AD(4)[pix + 2] << 16);
-		int h;
-		double s;
-		double v;
-		rgb_to_hsv(color, &h, &s, &v);
-		color = hsv_to_rgb(h, s, v - 0.1 - (currentDist / 40));
-		img_put_pixel(param, x, y, color);
+		CUR_DIST = WIN_HEIGHT / (2.0 * y - WIN_HEIGHT);
+		WEIGHT = (CUR_DIST - DIST_PLAYER) / (WALLDIST - DIST_PLAYER);
+		CUR_FLOORX = WEIGHT * FLOOR_X + (1.0 - WEIGHT) * CAM_POS->x;
+		CUR_FLOORY = WEIGHT * FLOOR_Y + (1.0 - WEIGHT) * CAM_POS->y;
+		TX_FLOORX = (int)(CUR_FLOORX * TXW(4)) % TXW(4);
+		TX_FLOORY = (int)(CUR_FLOORY * TXW(4)) % TXW(4);
+		id = (MAP[(int)CUR_FLOORX][(int)CUR_FLOORY][0] == '/') ? 6 : 4;
+		pix = (int)TX_FLOORY * TXSZL(id) + (int)TX_FLOORX * (TXBPP(id) / 8);
+		color = TX_AD(id)[pix] + (TX_AD(id)[pix + 1] << 8) +
+													(TX_AD(id)[pix + 2] << 16);
+		rgb_to_hsv(color, &(hsv.h), &(hsv.s), &(hsv.v));
+		color = hsv_to_rgb(hsv.h, hsv.s, hsv.v - 0.1 - (CUR_DIST / 40));
+		img_put_pixel(e, x, y, color);
+		if (MAP[(int)CUR_FLOORX][(int)CUR_FLOORY][0] == '/')
+		{
+			pix = (int)TX_FLOORY * TXSZL(5) + (int)TX_FLOORX * (TXBPP(5) / 8);
+			color = TX_AD(5)[pix] + (TX_AD(5)[pix + 1] << 8) +
+													(TX_AD(5)[pix + 2] << 16);
+			rgb_to_hsv(color, &(hsv.h), &(hsv.s), &(hsv.v));
+			color = hsv_to_rgb(hsv.h, hsv.s, hsv.v - 0.1 - (CUR_DIST / 40));
+			img_put_pixel(e, x, WIN_HEIGHT - y, color);
+		}
 	}
-}*/
+}
 
-static void	find_wall(t_param *param)
+static void	find_wall(t_env *e, t_param *param)
 {
 	char	hit;
 
@@ -92,7 +108,7 @@ static void	find_wall(t_param *param)
 		WALLDIST = (MAPY - CAM_POS->y + (1 - STEPY) / 2) / RAY_DIR->y;
 }
 
-static void	init_raycast_param(int x, t_param *param)
+static void	init_raycast_param(t_env *e, t_param *param, int x)
 {
 	SCREEN_X = 2 * x / (double)WIN_WIDTH - 1;
 	RAY_DIR->x = CAM_DIR->x + SCREEN->x * SCREEN_X;
@@ -109,24 +125,29 @@ static void	init_raycast_param(int x, t_param *param)
 		(MAPY + 1.0 - CAM_POS->y) * DDISTY;
 }
 
-void		raycast(t_param *param)
+void		*raycast(void *arg)
 {
 	int		x;
 	double	draw_start;
-	int		dec;
+	t_param	*param;
+	t_env	*e;
+	//int	dec;
 
-	x = -1;
-	dec = 7 * sin(5 * (CAM_POS->x - CAM_POS->y));
-	while (++x < WIN_WIDTH)
+	param = (t_param *)arg;
+	e = ENV;
+	x = TH * (WIN_WIDTH / NB_TH) - 1;
+	//dec = 7 * sin(5 * (CAM_POS->x - CAM_POS->y));
+	while (++x < (TH + 1) * WIN_WIDTH / NB_TH)
 	{
-		init_raycast_param(x, param);
-		find_wall(param);
+		init_raycast_param(ENV, param, x);
+		find_wall(ENV, param);
 		LINE_H = WIN_HEIGHT / WALLDIST;
 		draw_start = (WIN_HEIGHT / 2) - LINE_H / 2;
 		DRAW_END = (WIN_HEIGHT / 2) + LINE_H / 2;
 		draw_start = (draw_start < 0) ? 0 : draw_start;
 		DRAW_END = (DRAW_END >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : DRAW_END;
-		draw_raycast_line(x, (int)draw_start, (int)DRAW_END, param);
-		//raycast_floor(x, param);
+		draw_raycast_line(param, x, (int)draw_start, (int)DRAW_END);
+		raycast_floor(param, x);
 	}
+	pthread_exit(0);
 }
