@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 13:52:16 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/16 16:54:43 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 11:13:52 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,18 @@ static int	get_pixel_color(int x, int y, int height, t_param *param)
 	double			v;
 	int				pix;
 	unsigned int	color;
-	int				tex;
 
-	tex = MAP[MAPX][MAPY][0] - 49;
-	if (MAP[MAPX][MAPY][0] > '0' && WALLDIST < 25.0)
+	if (MAP[MAPX][MAPY][0] > '1' && WALLDIST < 25.0)
 	{
 		pix = (((int)((y + (LINE_H - height + 1) / 2) *
-							TEXTX / (LINE_H + 1)) * TEXSIZEL) + x * (BPP / 8));
-		color = TX_AD(tex)[pix] + (TX_AD(tex)[pix + 1] << 8) +
-													(TX_AD(tex)[pix + 2] << 16);
+					TXW(TX) / (LINE_H + 1)) * TXSZL(TX)) + x * (TXBPP(TX) / 8));
+		color = TX_AD(TX)[pix] + (TX_AD(TX)[pix + 1] << 8) +
+													(TX_AD(TX)[pix + 2] << 16);
 	}
 	else
-		color = hsv_to_rgb(120, 0, 0);
+		color = hsv_to_rgb(120, 0.2, 0.3);
 	rgb_to_hsv(color, &h, &s, &v);
-	color = hsv_to_rgb(h, s - (WALLDIST / 80 + (float)SIDE / 60), v - (WALLDIST / 80 + (float)SIDE / 60));
+	color = hsv_to_rgb(h, s, v - (WALLDIST / 80 + (float)SIDE / 60));
 	return (color);
 }
 
@@ -45,11 +43,11 @@ static int	get_texture_x(t_param *param)
 	else
 		WALL_X = CAM_POS->x + WALLDIST * RAY_DIR->x;
 	WALL_X -= floor(WALL_X);
-	textx = (int)(WALL_X * (double)(TEXTX));
+	textx = (int)(WALL_X * (double)(TXW(TX)));
 	if (SIDE == 0 && RAY_DIR->x > 0)
-		textx = TEXTX - textx - 1;
+		textx = TXW(TX) - textx - 1;
 	if (SIDE == 1 && RAY_DIR->y < 0)
-		textx = TEXTX - textx - 1;
+		textx = TXW(TX) - textx - 1;
 	return (textx);
 }
 
@@ -60,7 +58,8 @@ void		draw_raycast_line(int x, int y1, int y2, t_param *param)
 	int				textx;
 
 	height = (y2 - y1);
-	if (MAP[MAPX][MAPY][0] > '0')
+	TX = MAP[MAPX][MAPY][0] - 49;
+	if (MAP[MAPX][MAPY][0] > '1')
 		textx = get_texture_x(param);
 	y1--;
 	i = 0;

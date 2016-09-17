@@ -6,13 +6,13 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 11:20:41 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/16 17:03:22 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 11:13:54 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-static void	raycast_floor(int x, t_param *param)
+/*static void	raycast_floor(int x, t_param *param)
 {
 	double	distPlayer, currentDist;
 	int		y;
@@ -52,18 +52,18 @@ static void	raycast_floor(int x, t_param *param)
 
 		int floorTexX;
 		int floorTexY;
-		floorTexX = (int)(currentFloorX * TEXTX) % TEXTX;
-		floorTexY = (int)(currentFloorY * TEXTX) % TEXTX;
-		int pix = floorTexY * TEXSIZEL + floorTexX * (BPP / 8);
-		unsigned int color = TX_AD(0)[pix] + (TX_AD(0)[pix + 1] << 8) + (TX_AD(0)[pix + 2] << 16);
+		floorTexX = (int)(currentFloorX * TXW(4)) % TXW(4);
+		floorTexY = (int)(currentFloorY * TXW(4)) % TXW(4);
+		int pix = floorTexY * TXSZL(4) + floorTexX * (TXBPP(4) / 8);
+		unsigned int color = TX_AD(4)[pix] + (TX_AD(4)[pix + 1] << 8) + (TX_AD(4)[pix + 2] << 16);
 		int h;
 		double s;
 		double v;
 		rgb_to_hsv(color, &h, &s, &v);
-		color = hsv_to_rgb(h, s, v - 0.2 - (currentDist / 80));
+		color = hsv_to_rgb(h, s, v - 0.1 - (currentDist / 40));
 		img_put_pixel(param, x, y, color);
 	}
-}
+}*/
 
 static void	find_wall(t_param *param)
 {
@@ -113,7 +113,6 @@ void		raycast(t_param *param)
 {
 	int		x;
 	double	draw_start;
-	//double	draw_end;
 	int		dec;
 
 	x = -1;
@@ -128,6 +127,6 @@ void		raycast(t_param *param)
 		draw_start = (draw_start < 0) ? 0 : draw_start;
 		DRAW_END = (DRAW_END >= WIN_HEIGHT) ? WIN_HEIGHT - 1 : DRAW_END;
 		draw_raycast_line(x, (int)draw_start, (int)DRAW_END, param);
-		raycast_floor(x, param);
+		//raycast_floor(x, param);
 	}
 }

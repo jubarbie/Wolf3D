@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 20:11:28 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/16 15:50:18 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 11:13:50 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			main(void)
 {
 	t_param		*param;
 
-	param = init_param(900, 600);
+	param = init_param(1200, 900);
 	//display_map(param);
 	mlx_loop_hook(MLX, create_img, param);
 	mlx_hook(WIN, 17, Button1MotionMask, quit_wolf, param);

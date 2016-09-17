@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/16 17:03:18 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/17 11:13:46 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,12 @@
 # define SPEED param->speed
 
 # define NB_TEX 5
-# define TEXTX param->text_x
-# define TEXSIZEL param->tex_sizeline
-
 # define TEX param->textures
+# define TX param->tex_index
 # define TX_AD(x) TEX[x]->addr
+# define TXW(x) (TEX[x]->width)
+# define TXBPP(x) (TEX[x]->bpp)
+# define TXSZL(x) (TEX[x]->sizeline)
 
 # define MENU
 
@@ -82,6 +83,9 @@ typedef struct	s_texture
 {
 	void		*img;
 	char		*addr;
+	int			bpp;
+	int			width;
+	int			sizeline;
 }				t_tex;
 
 typedef struct	s_vector
@@ -130,8 +134,7 @@ typedef struct	s_param
 	double		speed;
 	int			moves;
 	t_tex		**textures;
-	int			text_x;
-	int			tex_sizeline;
+	int			tex_index;
 
 	char		menu;
 }				t_param;
