@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/13 13:52:16 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/17 16:25:11 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/18 23:03:47 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static int	get_pixel_color(t_param *param, int x, int y, int height)
 	else
 		color = hsv_to_rgb(120, 0.2, 0.3);
 	rgb_to_hsv(color, &(hsv.h), &(hsv.s), &(hsv.v));
-	color = hsv_to_rgb(hsv.h, hsv.s, hsv.v - (WALLDIST / 80 + (float)SIDE / 60));
+	color = hsv_to_rgb(hsv.h, hsv.s,
+									hsv.v - (WALLDIST / 20 + (float)SIDE / 60));
 	return (color);
 }
 
@@ -88,18 +89,4 @@ void		draw_raycast_line(t_param *param, int x, int y1, int y2)
 	i = 0;
 	while (++y1 <= y2)
 		img_put_pixel(e, x, y1, get_pixel_color(param, textx, i++, height));
-}
-
-void		img_put_pixel(t_env *e, int x, int y, unsigned int color)
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-
-	b = ((color & 0x00FF0000) >> 16);
-	g = ((color & 0x00FF00) >> 8);
-	r = (color & 0x00FF);
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8)] = r;
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 1] = g;
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 2] = b;
 }

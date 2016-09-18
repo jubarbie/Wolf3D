@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/17 16:04:31 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/17 16:26:00 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/18 22:07:18 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		free_env(t_env *e)
 	int	i;
 
 	free_textures(e);
+	free_menu(e);
 	free_map(e);
 	i = -1;
 	while (++i < NB_TH)
@@ -64,17 +65,18 @@ t_env		*init_env(int size_x, int size_y)
 	WIN = mlx_new_window(MLX, size_x, size_y, "Wolf3d");
 	WIN_WIDTH = size_x;
 	WIN_HEIGHT = size_y;
-	MAP = create_map(e, "Maps/map3.w3d");
+	MAP = create_map(e, "Maps/map4.w3d");
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
 	init_textures(e);
-	SPEED = 0.2;
+	SPEED = 1;
 	MOVES = 0;
-	CAM_POS = new_vector(2, 23);
+	CAM_POS = new_vector(2, 23.5);
 	CAM_DIR = new_vector(1, 0);
 	SCREEN = new_vector(0, 0.66);
 	i = -1;
 	while (++i < NB_TH)
 		e->param[i] = init_param(e, i);
+	init_menu(e);
 	return (e);
 }

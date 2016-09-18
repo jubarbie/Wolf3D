@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/17 16:21:15 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/18 23:29:22 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@
 # include "libft.h"
 
 # define PI 3.141592
-# define NB_TH 30
+# define NB_TH 100
+
+# define OPT_REF "d"
+# define OPT e->opt
+# define D (OPT & (1 << 0))
 
 # define MLX e->mlx
 # define WIN e->win
@@ -38,6 +42,26 @@
 # define MAP e->map
 # define MAP_WIDTH e->map_width
 # define MAP_HEIGHT e->map_height
+
+# define TIC e->tic
+# define TF e->time_frame
+
+# define MENU e->menu
+# define TITLE_IMG e->title_img
+# define TITLE_W e->title_w
+# define TITLE_H e->title_h
+# define M_W e->m_item_w
+# define M_H e->m_item_h
+# define PLAY_IMG e->play_img
+# define HOWTO_IMG e->howto_img
+# define QUIT_IMG e->quit_img
+# define INFO_IMG e->info_img
+# define RES_IMG e->resume_img
+# define S_PLAY_IMG e->s_play_img
+# define S_HOWTO_IMG e->s_howto_img
+# define S_QUIT_IMG e->s_quit_img
+# define S_INFO_IMG e->s_info_img
+# define S_RES_IMG e->s_resume_img
 
 # define MOVES e->moves
 # define SPEED e->speed
@@ -53,14 +77,13 @@
 # define SCREEN e->screen
 # define SCREEN_X e->screen_x
 
-# define NB_TEX 7
+# define NB_TEX 9
 # define TEX e->textures
 # define TX_IM(x) TEX[x]->img
 # define TX_AD(x) TEX[x]->addr
 # define TXW(x) (TEX[x]->width)
 # define TXBPP(x) (TEX[x]->bpp)
 # define TXSZL(x) (TEX[x]->sizeline)
-
 
 # define ENV param->env
 # define TH param->index
@@ -88,7 +111,6 @@
 # define CUR_FLOORY param->current_floor_y
 # define TX_FLOORX param->tex_floor_x
 # define TX_FLOORY param->tex_floor_y
-
 
 typedef	struct	s_hsv
 {
@@ -120,6 +142,7 @@ typedef struct	s_vector
 
 typedef struct	s_env
 {
+	char			opt;
 	void			*mlx;
 	void			*win;
 	int				win_width;
@@ -130,13 +153,32 @@ typedef struct	s_env
 	void			*img;
 	char			*img_addr;
 
+	clock_t			tic;
+	double			time_frame;
+
+	char			menu;
+	void			*title_img;
+	int				title_w;
+	int				title_h;
+	void			*play_img;
+	void			*howto_img;
+	void			*quit_img;
+	void			*info_img;
+	void			*resume_img;
+	void			*s_play_img;
+	void			*s_howto_img;
+	void			*s_quit_img;
+	void			*s_info_img;
+	void			*s_resume_img;
+	int				m_item_w;
+	int				m_item_h;
+
 	char			***map;
 	int				map_width;
 	int				map_height;
 	t_tex			**textures;
 	double			speed;
 	int				moves;
-	char			menu;
 
 	t_vector		*cam_pos;
 	t_vector		*cam_dir;
@@ -147,9 +189,10 @@ typedef struct	s_env
 }				t_env;
 
 typedef struct	s_param
-{	
+{
 	t_env		*env;
 	int			index;
+
 	t_vector	*ray_dir;
 	t_vector	*side_dist;
 	t_vector	*delta_dist;
@@ -174,6 +217,7 @@ typedef struct	s_param
 	int			tex_index;
 }				t_param;
 
+int				get_options(int ac, char **av, char *opt);
 
 t_env			*init_env(int size_x, int size_y);
 void			free_env(t_env *e);
@@ -188,6 +232,7 @@ void			img_put_pixel(t_env *e, int x, int y, unsigned int color);
 void			draw_sky_floor(t_env *e);
 void			draw_raycast_line(t_param *param, int x, int y1, int y2);
 void			*raycast(void *arg);
+void			raycast_floor(t_env *e, t_param *param, int x);
 
 t_vector		*new_vector(double x, double y);
 void			rot_vector(t_vector *v, double angle);
@@ -195,6 +240,9 @@ void			add_vectors(t_vector *v1, t_vector *v2);
 void			sub_vectors(t_vector *v1, t_vector *v2);
 void			time_vector(t_vector *v, double i);
 
+void			menu(t_env *e);
+void			init_menu(t_env *e);
+void			free_menu(t_env *e);
 int				moves(t_env *e);
 
 int				quit_wolf(t_env *e);
