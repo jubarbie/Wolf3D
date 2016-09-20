@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/14 11:19:47 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/07/19 10:38:45 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 18:59:40 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void		free_all(char **line, t_list **first, int fd)
 static t_list	*search_fd(t_list **first, int fd)
 {
 	t_list	*elem;
+	char	*buf;
 
 	elem = *first;
 	while (elem)
@@ -55,7 +56,9 @@ static t_list	*search_fd(t_list **first, int fd)
 		elem = elem->next;
 	}
 	elem = *first;
-	ft_lstadd(first, ft_lstnew(ft_strnew(BUFF_SIZE), BUFF_SIZE + 1));
+	buf = ft_strnew(BUFF_SIZE);
+	ft_lstadd(first, ft_lstnew(buf, BUFF_SIZE + 1));
+	free(buf);
 	(*first)->content_size = fd;
 	return (*first);
 }

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/20 16:55:29 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 19:37:25 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "libft.h"
 
 # define PI 3.141592
-# define NB_TH 100
+# define NB_TH 10
 
 # define OPT_REF "d"
 # define OPT e->opt
