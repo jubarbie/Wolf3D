@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/20 20:55:02 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 20:58:11 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		free_map(t_env *e)
 
 	i = -1;
 	while (++i < MAP_HEIGHT && (j = -1))
-	{	
+	{
 		while (++j < MAP_WIDTH)
 			free(MAP[i][j]);
 		free(MAP[i]);
