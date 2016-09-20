@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/30 17:19:58 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/20 18:29:29 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 20:55:02 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ static int	nb_coord(char *str)
 		str++;
 	}
 	return (i);
+}
+
+static int	get_map_height(char *file_name)
+{
+	int		fd;
+	char	*line;
+	int		stop;
+	int		height;
+
+	if ((fd = open(file_name, O_RDONLY)) == -1)
+		exit(EXIT_FAILURE);
+	height = 0;
+	while ((stop = get_next_line(fd, &line)) > 0)
+	{
+		height++;
+		free(line);
+	}
+	if (stop == -1 || height == 0)
+		exit(EXIT_FAILURE);
+	close(fd);
+	return (height);
 }
 
 void		free_map(t_env *e)
@@ -48,17 +69,9 @@ char		***create_map(t_env *e, char *file_name)
 	char	***tab;
 	int		stop;
 
-	if ((fd = open(file_name, O_RDONLY)) == -1)
-		exit(EXIT_FAILURE);
-	MAP_HEIGHT = 0;
-	while ((stop = get_next_line(fd, &line)) > 0)
-	{
-		MAP_HEIGHT++;
-		free(line);
-	}
-	close(fd);
+	MAP_HEIGHT = get_map_height(file_name);
 	if (!(tab = malloc(sizeof(char **) * MAP_HEIGHT)) ||
-	((fd = open(file_name, O_RDONLY)) == -1) || stop == -1 || MAP_HEIGHT == 0)
+									((fd = open(file_name, O_RDONLY)) == -1))
 		exit(EXIT_FAILURE);
 	MAP_HEIGHT = 0;
 	MAP_WIDTH = 100000000;
