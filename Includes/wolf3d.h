@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/26 10:48:32 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/18 23:29:22 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 16:55:29 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@
 # define M_HIW e->m_hi_h
 # define M_HIH e->m_hi_w
 # define PLAY_IMG e->play_img
+# define PLAY_TIMG e->play_img
 # define HOWTO_IMG e->howto_img
 # define QUIT_IMG e->quit_img
 # define INFO_IMG e->info_img
 # define RES_IMG e->resume_img
 # define S_PLAY_IMG e->s_play_img
+# define S_PLAY_TIMG e->s_play_img
 # define S_HOWTO_IMG e->s_howto_img
 # define S_QUIT_IMG e->s_quit_img
 # define S_INFO_IMG e->s_info_img
@@ -81,7 +83,7 @@
 # define SCREEN e->screen
 # define SCREEN_X e->screen_x
 
-# define NB_TEX 19
+# define NB_TEX 21
 # define TEX e->textures
 # define TX_IM(x) TEX[x]->img
 # define TX_AD(x) TEX[x]->addr

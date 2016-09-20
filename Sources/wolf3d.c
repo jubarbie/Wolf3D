@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 20:11:28 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/18 23:04:50 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 17:18:25 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			main(int ac, char **av)
 	int		i;
 	t_env	*e;
 
-	e = init_env(900, 600);
+	e = init_env(1000, 800);
 	i = get_options(ac, av, &OPT);
 	if (D)
 		display_map(e);

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/17 16:04:31 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/18 22:07:18 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 17:18:20 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_env		*init_env(int size_x, int size_y)
 	WIN = mlx_new_window(MLX, size_x, size_y, "Wolf3d");
 	WIN_WIDTH = size_x;
 	WIN_HEIGHT = size_y;
-	MAP = create_map(e, "Maps/map4.w3d");
+	MAP = create_map(e, "Maps/map.w3d");
 	IMG = mlx_new_image(MLX, WIN_WIDTH, WIN_HEIGHT);
 	IMG_ADDR = mlx_get_data_addr(IMG, &BPP, &SIZELINE, &ENDIAN);
 	init_textures(e);

@@ -6,13 +6,25 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/18 14:08:40 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/18 22:28:47 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 17:07:42 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void	free_menu(t_env *e)
+static void	display_menu_items(t_env *e)
+{
+	mlx_put_image_to_window(MLX, WIN,
+			MENU == 1 ? S_PLAY_IMG : PLAY_IMG, WIN_WIDTH / 2 - M_W / 2, 300);
+	mlx_put_image_to_window(MLX, WIN, MENU == 2 ? S_HOWTO_IMG :
+							HOWTO_IMG, WIN_WIDTH / 2 - M_W / 2, 300 + M_H);
+	mlx_put_image_to_window(MLX, WIN, MENU == 3 ? S_QUIT_IMG :
+					QUIT_IMG, WIN_WIDTH / 2 - M_W / 2, WIN_HEIGHT - 2 * M_H);
+	mlx_put_image_to_window(MLX, WIN, MENU == 4 ? S_INFO_IMG :
+						INFO_IMG, WIN_WIDTH / 2 - M_W / 2, WIN_HEIGHT - M_H);
+}
+
+void		free_menu(t_env *e)
 {
 	mlx_destroy_image(MLX, TITLE_IMG);
 	mlx_destroy_image(MLX, PLAY_IMG);
@@ -25,7 +37,7 @@ void	free_menu(t_env *e)
 	mlx_destroy_image(MLX, S_INFO_IMG);
 }
 
-void	menu(t_env *e)
+void		menu(t_env *e)
 {
 	int	x;
 	int	y;
@@ -38,16 +50,7 @@ void	menu(t_env *e)
 	mlx_put_image_to_window(MLX, WIN, TITLE_IMG,
 											WIN_WIDTH / 2 - TITLE_W / 2, 50);
 	if (MENU < 5)
-	{
-		mlx_put_image_to_window(MLX, WIN,
-			MENU == 1 ? S_PLAY_IMG : PLAY_IMG, WIN_WIDTH / 2 - M_W / 2, 300);
-		mlx_put_image_to_window(MLX, WIN, MENU == 2 ? S_HOWTO_IMG :
-							HOWTO_IMG, WIN_WIDTH / 2 - M_W / 2, 300 + M_H);
-		mlx_put_image_to_window(MLX, WIN, MENU == 3 ? S_QUIT_IMG :
-					QUIT_IMG, WIN_WIDTH / 2 - M_W / 2, WIN_HEIGHT - 2 * M_H);
-		mlx_put_image_to_window(MLX, WIN, MENU == 4 ? S_INFO_IMG :
-						INFO_IMG, WIN_WIDTH / 2 - M_W / 2,	WIN_HEIGHT - M_H);
-	}
+		display_menu_items(e);
 	else if (MENU == 11)
 		mlx_put_image_to_window(MLX, WIN, H_IMG, WIN_WIDTH / 2 - M_HIW / 2,
 													WIN_HEIGHT - M_HIH - 10);
@@ -56,7 +59,7 @@ void	menu(t_env *e)
 													WIN_HEIGHT - M_HIH - 10);
 }
 
-void	init_menu(t_env *e)
+void		init_menu(t_env *e)
 {
 	MENU = 1;
 	TITLE_IMG = mlx_xpm_file_to_image(MLX, "Img/title.xpm", &TITLE_W, &TITLE_H);

@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/18 22:55:19 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/18 23:28:30 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 16:44:53 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	get_tex_index(t_env *e, t_param *param)
 		TX = 7;
 	else if (c == '+')
 		TX = 18;
+	else if (c == '-')
+		TX = 19;
 	else
 		TX = 4;
 }

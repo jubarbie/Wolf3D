@@ -6,7 +6,7 @@
 /*   By: jubarbie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/05 16:45:52 by jubarbie          #+#    #+#             */
-/*   Updated: 2016/09/18 22:12:19 by jubarbie         ###   ########.fr       */
+/*   Updated: 2016/09/20 17:19:51 by jubarbie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	move_forward(t_env *e)
 	if (MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y + go.y)][0] <= '0' &&
 	MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y + 0.1 + go.y)][0] <= '0' &&
 	MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y - 0.1 + go.y)][0] <= '0')
-	
 		add_vectors(CAM_POS, &go);
 }
 
