@@ -80,7 +80,7 @@ int			main(int ac, char **av)
 	int		i;
 	t_env	*e;
 
-	e = init_env(1200, 800);
+	e = init_env(900, 600);
 	i = get_options(ac, av, &OPT);
 	if (D)
 		display_map(e);

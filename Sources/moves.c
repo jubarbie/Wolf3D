@@ -19,18 +19,23 @@ static void	move_forward(t_env *e)
 	go.x = CAM_DIR->x;
 	go.y = CAM_DIR->y;
 	time_vector(&go, ((double)(clock() - TIC) / CLOCKS_PER_SEC) * SPEED);
-	if (MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y + go.y)][0] <= '0')
+	if (MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y + go.y)][0] <= '0' &&
+	MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y + 0.1 + go.y)][0] <= '0' &&
+	MAP[(int)(CAM_POS->x + go.x)][(int)(CAM_POS->y - 0.1 + go.y)][0] <= '0')
+	
 		add_vectors(CAM_POS, &go);
 }
 
 static void	move_backward(t_env *e)
 {
-	t_vector go;
+	t_vector	go;
 
 	go.x = CAM_DIR->x;
 	go.y = CAM_DIR->y;
 	time_vector(&go, ((double)(clock() - TIC) / CLOCKS_PER_SEC) * SPEED);
-	if (MAP[(int)(CAM_POS->x - go.x)][(int)(CAM_POS->y - go.y)][0] <= '0')
+	if (MAP[(int)(CAM_POS->x - go.x)][(int)(CAM_POS->y - go.y)][0] <= '0' &&
+	MAP[(int)(CAM_POS->x - go.x)][(int)(CAM_POS->y + 0.1 - go.y)][0] <= '0' &&
+	MAP[(int)(CAM_POS->x - go.x)][(int)(CAM_POS->y - 0.1 - go.y)][0] <= '0')
 		sub_vectors(CAM_POS, &go);
 }
 
@@ -48,7 +53,7 @@ static void	move_straff_left(t_env *e)
 
 static void	move_straff_right(t_env *e)
 {
-	t_vector go;
+	t_vector	go;
 
 	go.x = CAM_DIR->x;
 	go.y = CAM_DIR->y;

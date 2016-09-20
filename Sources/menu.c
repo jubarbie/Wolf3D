@@ -35,19 +35,25 @@ void	menu(t_env *e)
 		while (++y < WIN_HEIGHT)
 			img_put_pixel(e, x, y, 0X00060019);
 	mlx_put_image_to_window(MLX, WIN, IMG, 0, 0);
-	mlx_put_image_to_window(MLX, WIN, TITLE_IMG, WIN_WIDTH / 2 - TITLE_W / 2,
-																			50);
-	mlx_put_image_to_window(MLX, WIN,
-		MENU == 1 ? S_PLAY_IMG : PLAY_IMG, WIN_WIDTH / 2 - M_W / 2, 300);
-	mlx_put_image_to_window(MLX, WIN,
-		MENU == 2 ? S_HOWTO_IMG : HOWTO_IMG, WIN_WIDTH / 2 - M_W / 2,
-																	300 + M_H);
-	mlx_put_image_to_window(MLX, WIN,
-		MENU == 3 ? S_QUIT_IMG : QUIT_IMG, WIN_WIDTH / 2 - M_W / 2,
-														WIN_HEIGHT - 2 * M_H);
-	mlx_put_image_to_window(MLX, WIN,
-		MENU == 4 ? S_INFO_IMG : INFO_IMG, WIN_WIDTH / 2 - M_W / 2,
-															WIN_HEIGHT - M_H);
+	mlx_put_image_to_window(MLX, WIN, TITLE_IMG,
+											WIN_WIDTH / 2 - TITLE_W / 2, 50);
+	if (MENU < 5)
+	{
+		mlx_put_image_to_window(MLX, WIN,
+			MENU == 1 ? S_PLAY_IMG : PLAY_IMG, WIN_WIDTH / 2 - M_W / 2, 300);
+		mlx_put_image_to_window(MLX, WIN, MENU == 2 ? S_HOWTO_IMG :
+							HOWTO_IMG, WIN_WIDTH / 2 - M_W / 2, 300 + M_H);
+		mlx_put_image_to_window(MLX, WIN, MENU == 3 ? S_QUIT_IMG :
+					QUIT_IMG, WIN_WIDTH / 2 - M_W / 2, WIN_HEIGHT - 2 * M_H);
+		mlx_put_image_to_window(MLX, WIN, MENU == 4 ? S_INFO_IMG :
+						INFO_IMG, WIN_WIDTH / 2 - M_W / 2,	WIN_HEIGHT - M_H);
+	}
+	else if (MENU == 11)
+		mlx_put_image_to_window(MLX, WIN, H_IMG, WIN_WIDTH / 2 - M_HIW / 2,
+													WIN_HEIGHT - M_HIH - 10);
+	else if (MENU == 12)
+		mlx_put_image_to_window(MLX, WIN, I_IMG, WIN_WIDTH / 2 - M_HIW / 2,
+													WIN_HEIGHT - M_HIH - 10);
 }
 
 void	init_menu(t_env *e)
@@ -64,4 +70,6 @@ void	init_menu(t_env *e)
 	S_QUIT_IMG = mlx_xpm_file_to_image(MLX, "Img/quit_s.xpm", &M_W, &M_H);
 	S_INFO_IMG = mlx_xpm_file_to_image(MLX, "Img/infos_s.xpm", &M_W, &M_H);
 	S_RES_IMG = mlx_xpm_file_to_image(MLX, "Img/resume_s.xpm", &M_W, &M_H);
+	I_IMG = mlx_xpm_file_to_image(MLX, "Img/I.xpm", &M_HIW, &M_HIH);
+	H_IMG = mlx_xpm_file_to_image(MLX, "Img/H.xpm", &M_HIW, &M_HIH);
 }

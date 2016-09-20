@@ -40,6 +40,8 @@ static void	get_tex_index(t_env *e, t_param *param)
 		TX = 5;
 	else if (c == '.')
 		TX = 7;
+	else if (c == '+')
+		TX = 18;
 	else
 		TX = 4;
 }
@@ -52,7 +54,7 @@ static void	raycast_cielling(t_env *e, t_param *param, int x, int y)
 	char			c;
 
 	c = MAP[(int)CUR_FLOORX][(int)CUR_FLOORY][0];
-	if (c < '0')
+	if (c < '0' && c > '+')
 	{
 		TX++;
 		TX_FLOORX = (int)(CUR_FLOORX * TXW(TX)) % TXW(TX);

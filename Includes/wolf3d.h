@@ -52,6 +52,8 @@
 # define TITLE_H e->title_h
 # define M_W e->m_item_w
 # define M_H e->m_item_h
+# define M_HIW e->m_hi_h
+# define M_HIH e->m_hi_w
 # define PLAY_IMG e->play_img
 # define HOWTO_IMG e->howto_img
 # define QUIT_IMG e->quit_img
@@ -62,6 +64,8 @@
 # define S_QUIT_IMG e->s_quit_img
 # define S_INFO_IMG e->s_info_img
 # define S_RES_IMG e->s_resume_img
+# define H_IMG e->h_img
+# define I_IMG e->i_img
 
 # define MOVES e->moves
 # define SPEED e->speed
@@ -77,7 +81,7 @@
 # define SCREEN e->screen
 # define SCREEN_X e->screen_x
 
-# define NB_TEX 9
+# define NB_TEX 19
 # define TEX e->textures
 # define TX_IM(x) TEX[x]->img
 # define TX_AD(x) TEX[x]->addr
@@ -172,6 +176,10 @@ typedef struct	s_env
 	void			*s_resume_img;
 	int				m_item_w;
 	int				m_item_h;
+	void			*h_img;
+	void			*i_img;
+	int				m_hi_w;
+	int				m_hi_h;
 
 	char			***map;
 	int				map_width;
