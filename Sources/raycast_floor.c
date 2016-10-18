@@ -66,7 +66,7 @@ static void	raycast_cielling(t_env *e, t_param *param, int x, int y)
 													(TX_AD(TX)[pix + 2] << 16);
 		rgb_to_hsv(color, &(hsv.h), &(hsv.s), &(hsv.v));
 		color = hsv_to_rgb(hsv.h - CUR_DIST, hsv.s,
-												hsv.v - 0.1 - (CUR_DIST / 40));
+									(hsv.v - 0.1 - (CUR_DIST / 40)) * LUM);
 		img_put_pixel(e, x, WIN_HEIGHT - y, color);
 	}
 }
@@ -93,7 +93,7 @@ void		raycast_floor(t_env *e, t_param *param, int x)
 		color = TX_AD(TX)[pix] + (TX_AD(TX)[pix + 1] << 8) +
 													(TX_AD(TX)[pix + 2] << 16);
 		rgb_to_hsv(color, &(hsv.h), &(hsv.s), &(hsv.v));
-		color = hsv_to_rgb(hsv.h, hsv.s, hsv.v - 0.1 - (CUR_DIST / 40));
+		color = hsv_to_rgb(hsv.h, hsv.s, (hsv.v - 0.1 - (CUR_DIST / 40)) * LUM);
 		img_put_pixel(e, x, y, color);
 		raycast_cielling(e, param, x, y);
 	}

@@ -74,6 +74,9 @@ t_env		*init_env(int size_x, int size_y)
 	CAM_POS = new_vector(2, 23.5);
 	CAM_DIR = new_vector(1, 0);
 	SCREEN = new_vector(0, 0.66);
+	LUM = 0.1;
+	LUM_ON = 0;
+	TIC_LUM = clock();
 	i = -1;
 	while (++i < NB_TH)
 		e->param[i] = init_param(e, i);

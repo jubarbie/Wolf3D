@@ -48,14 +48,19 @@ static int	create_img(t_env *e)
 			if (pthread_create(&th[i], NULL, &raycast,
 						(void *)(e->param[i])) < 0)
 				quit_wolf(e);
-		TF = CLOCKS_PER_SEC / (double)(clock() - TIC);
-		snprintf(frame, 5, "%f", TF);
 		i = -1;
 		while (++i < NB_TH)
 			(void)pthread_join(th[i], NULL);
 		moves(e);
+		light_manage(e);
 		mlx_put_image_to_window(MLX, WIN, IMG, 0, 0);
-		mlx_string_put(MLX, WIN, 10, 2, 0x00FFFFFF, frame);
+		if (D)
+		{
+			snprintf(frame, 5, "%f", TF);
+			TF = CLOCKS_PER_SEC / (double)(clock() - TIC);
+			mlx_string_put(MLX, WIN, 10, 2, 0x00FFFFFF, frame);
+			printf("%lf\n", LUM);
+		}
 	}
 	return (0);
 }
@@ -72,7 +77,7 @@ void		img_put_pixel(t_env *e, int x, int y, unsigned int color)
 	IMG_ADDR[y * SIZELINE + x * (BPP / 8)] = r;
 	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 1] = g;
 	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 2] = b;
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 3] = (SPEED > 1.5) ? 150 : 20;
+	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 3] = (SPEED > 1.5) ? 150 : 0;
 }
 
 int			main(int ac, char **av)
@@ -80,7 +85,7 @@ int			main(int ac, char **av)
 	int		i;
 	t_env	*e;
 
-	e = init_env(1000, 800);
+	e = init_env(800, 600);
 	i = get_options(ac, av, &OPT);
 	if (D)
 		display_map(e);

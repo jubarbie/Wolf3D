@@ -23,6 +23,7 @@ SRC=	Sources/wolf3d.c		\
 		Sources/moves.c			\
 		Sources/color_hsv.c		\
 		Sources/menu.c			\
+		Sources/light.c			\
 		Sources/raycast.c		\
 		Sources/raycast2.c		\
 		Sources/raycast_floor.c		

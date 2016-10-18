@@ -57,6 +57,8 @@ int			ft_key_release(int keycode, t_env *e)
 {
 	if (keycode == 53)
 		quit_wolf(e);
+	else if (keycode == 46)
+			(S) ? (OPT ^= (1 << 1)) : (OPT |= (1 << 1));
 	else if (MENU == 0)
 	{
 		if (keycode == 43 || keycode == 12)
@@ -79,6 +81,8 @@ int			ft_key_release(int keycode, t_env *e)
 
 int			ft_key_press(int keycode, t_env *e)
 {
+	if (D)
+		printf("%d\n", keycode);
 	if (MENU > 0)
 		menu_select(keycode, e);
 	else
@@ -96,6 +100,8 @@ int			ft_key_press(int keycode, t_env *e)
 			SPEED -= (SPEED > 0.2) ? 0.1 : 0;
 		else if (keycode == 39)
 			SPEED += (SPEED < 5) ? 0.1 : 0;
+		else if (keycode == 49)
+			LUM_ON = 1;
 		else if (keycode == 35)
 		{
 			PLAY_IMG = RES_IMG;

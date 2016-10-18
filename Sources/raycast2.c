@@ -31,7 +31,7 @@ static int	get_pixel_color(t_param *param, int x, int y, int height)
 		color = hsv_to_rgb(120, 0.2, 0.3);
 	rgb_to_hsv(color, &(hsv.h), &(hsv.s), &(hsv.v));
 	color = hsv_to_rgb(hsv.h, hsv.s,
-									hsv.v - (WALLDIST / 20 + (float)SIDE / 60));
+						(hsv.v - (WALLDIST / 20 + (float)SIDE / 60)) * LUM);
 	return (color);
 }
 
@@ -67,7 +67,8 @@ void		draw_sky_floor(t_env *e)
 
 	i = -1;
 	while (++i < WIN_HEIGHT / 2)
-		draw_line_h(e, i, hsv_to_rgb(i * 200 / WIN_HEIGHT + 220, 0.7, 0.2));
+		draw_line_h(e, i, hsv_to_rgb((i * 200 / WIN_HEIGHT +
+			(clock() / CLOCKS_PER_SEC)) % 360, 0.7, 0.2));
 	while (++i < WIN_HEIGHT)
 		draw_line_h(e, i, hsv_to_rgb(150, 0.2, 0 + ((i - WIN_HEIGHT / 2.0) /
 																		1000)));

@@ -24,11 +24,12 @@
 # include "libft.h"
 
 # define PI 3.141592
-# define NB_TH 10
+# define NB_TH 50
 
-# define OPT_REF "d"
+# define OPT_REF "ds"
 # define OPT e->opt
 # define D (OPT & (1 << 0))
+# define S (OPT & (1 << 1))
 
 # define MLX e->mlx
 # define WIN e->win
@@ -44,6 +45,7 @@
 # define MAP_HEIGHT e->map_height
 
 # define TIC e->tic
+# define TIC_LUM e->lum_tic
 # define TF e->time_frame
 
 # define MENU e->menu
@@ -68,6 +70,8 @@
 # define S_RES_IMG e->s_resume_img
 # define H_IMG e->h_img
 # define I_IMG e->i_img
+# define LUM e->lum
+# define LUM_ON e->lum_on
 
 # define MOVES e->moves
 # define SPEED e->speed
@@ -194,6 +198,9 @@ typedef struct	s_env
 	t_vector		*cam_dir;
 	t_vector		*screen;
 	double			screen_x;
+	double			lum;
+	char			lum_on;
+	clock_t			lum_tic;	
 
 	struct s_param	*param[NB_TH];
 }				t_env;
@@ -254,6 +261,8 @@ void			menu(t_env *e);
 void			init_menu(t_env *e);
 void			free_menu(t_env *e);
 int				moves(t_env *e);
+
+void			light_manage(t_env *e);
 
 int				quit_wolf(t_env *e);
 void			error_usage(void);
