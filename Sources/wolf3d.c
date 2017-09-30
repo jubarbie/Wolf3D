@@ -77,7 +77,7 @@ void		img_put_pixel(t_env *e, int x, int y, unsigned int color)
 	IMG_ADDR[y * SIZELINE + x * (BPP / 8)] = r;
 	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 1] = g;
 	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 2] = b;
-	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 3] = (SPEED > 1.5) ? 150 : 0;
+	IMG_ADDR[y * SIZELINE + x * (BPP / 8) + 3] = (SPEED > 1.5) ? (char)150 : (char)0;
 }
 
 int			main(int ac, char **av)
